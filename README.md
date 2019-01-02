@@ -8,7 +8,7 @@
 ## Updates:
 
 * **December 24, 2017**
-  - Added footnote width option
+  - Added ```width()``` option for table footnotes
 
 ## Install:
 
