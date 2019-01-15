@@ -4,3 +4,5 @@ d Julian Reif, University of Illinois (jreif@illinois.edu)
 
 f /src/texsave.ado
 f /src/texsave.hlp
+f /src/appendfile.ado
+f /src/appendfile.hlp
