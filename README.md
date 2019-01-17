@@ -1,14 +1,14 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.4.1 24dec2017`
+- Current version: `1.4.2 17jan2019`
 - Jump to: [`updates`](#recent-updates) [`install`](#install) [`description`](#description) [`author`](#author)
 
 -----------
 
 ## Updates:
 
-* **December 24, 2017**
-  - Added ```width()``` option for table footnotes
+* **January 17, 2019**
+  - Added ```preamble()``` option
 
 ## Install:
 
