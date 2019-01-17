@@ -13,8 +13,8 @@
 {cmd:marker(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{it:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
 {cmdab:varlab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
 {cmd:rowsep(}{it:string}{cmd:)} {cmd:frag} {cmd:nonames} {cmd:sw} {cmd:nofix} 
-{cmd:headerlines(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:footlines(}{it:stringlist}{cmd:)}
-{cmd:replace} {it:format_options}]
+{cmd:preamble(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:headerlines(}{it:stringlist}{cmd:)}  
+{cmd:footlines(}{it:stringlist}{cmd:)} {cmd:replace} {it:format_options}]
 
 {p 4 4 2}where
 
@@ -39,7 +39,6 @@ to produce publication-quality tables.
 
 
 {title:Options}
-
 
 {p 4 8 2}
 {cmd:title(}{it:string}{cmd:)} writes out {it:string} as a caption above the table.
@@ -126,8 +125,9 @@ The length can be expressed in the following units: {it:cm} (centimetres), {it:e
 For example, {cmd:rowsep(}{it:1cm}{cmd:)} adds one centimeter of vertical space between rows.
 
 {p 4 8 2}
-{cmd:frag} omits from the output LaTeX code like {it:\begin{c -(}document{c )-}} that is needed to create a standalone document.  This makes {it:filename} a fragment, which
-is useful if you plan to link your table to another document via LaTeX's {it:\input{c -(}table{c )-}} command.
+{cmd:frag} omits from the output LaTeX code like {it:\begin{c -(}document{c )-}} that is needed to create a standalone document. This makes {it:filename} a fragment, which
+is useful if you want to use LaTeX's {it:\input{c -(}table{c )-}} command to include your table as a subfile.
+An alternative is to use the LaTeX package {browse "http://ctan.org/pkg/standalone":standalone}, which instructs LaTeX to skip extra premables when including subfiles. 
 
 
 {p 4 8 2}
@@ -145,11 +145,15 @@ Specify {cmd:nofix} if you are intentionally outputting LaTeX code and don't wan
 
 
 {p 4 8 2}
-{cmd:headerlines(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear before the table header.  Each line of code should be surrounded by quotation marks (see example 5 below).
+{cmd:preamble(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear before the "\begin{document}" code in the output.  Each line of code should be surrounded by quotation marks (see example 4 below).
 
 
 {p 4 8 2}
-{cmd:headlines(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear before the table code in the output.  Each line of code should be surrounded by quotation marks (see example 4 below).
+{cmd:headlines(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear before the "\begin{table}" code in the output.  Each line of code should be surrounded by quotation marks (see example 4 below).
+
+
+{p 4 8 2}
+{cmd:headerlines(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear before the table header.  Each line of code should be surrounded by quotation marks (see example 5 below).
 
 
 {p 4 8 2}
@@ -214,7 +218,7 @@ Please contact the author if you notice problems with other compilers.
 
 {col 8}{cmd:. sysuse auto.dta, clear}
 
-{col 8}{cmd:. texsave make mpg trunk if price > 8000 using "example4.tex", loc(h) headlines("\begin{center}" "My headline" "\end{center}") footlines("My footline") replace}
+{col 8}{cmd:. texsave make mpg trunk if price > 8000 using "example4.tex", loc(h) preamble("\usepackage{amsfonts}") headlines("\begin{center}" "My headline" "\end{center}") footlines("My footline") replace}
 
 
 {p 4 4 2}5. Output a table with a complicated header and bold-face the first observation.
@@ -226,7 +230,7 @@ Please contact the author if you notice problems with other compilers.
 
 {title:Author}
 
-{p 4 4 2}Julian Reif, University of Illinois at Urbana-Champaign
+{p 4 4 2}Julian Reif, University of Illinois
 
 {p 4 4 2}jreif@illinois.edu
 

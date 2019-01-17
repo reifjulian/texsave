@@ -1,4 +1,5 @@
-*! texsave 1.4.1 24dec2017 by Julian Reif
+*! texsave 1.4.2 17jan2019 by Julian Reif
+* 1.4.2: added preamble option.
 * 1.4.1: added footnote width option.
 * 1.4: geometry package now required. footnote parameters edited. landscape and geometry options added.
 * 1.3.3: -fix- option now also corrects "_" in column names
@@ -17,7 +18,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) LANDscape GEOmetry(string) replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) LANDscape GEOmetry(string) replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -285,9 +286,16 @@ program define texsave, nclass
 		file write `fh' "\usepackage{tabularx}" _n
 		file write `fh' "\usepackage[margin=1in]{geometry}" _n
 		if "`landscape'"!="" file write `fh' "\usepackage{pdflscape}" _n
-			
-		file write `fh' "\begin{document}" _n(2)
 	}
+	* Preamble option. This is always outputted.
+	if `"`preamble'"' != "" {
+		tokenize `"`preamble'"'
+		while `"`1'"' != "" {
+			file write `fh' `"`1'"' _n
+			macro shift
+		}
+	}	
+	if "`frag'" == "" file write `fh' "\begin{document}" _n(2)
 	
 	if "`landscape'"!="" file write `fh' "\begin{landscape}" _n
 	if `"`geometry'"'!="" file write `fh' `"\newgeometry{`geometry'}"' _n
