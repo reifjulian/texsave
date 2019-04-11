@@ -1,4 +1,5 @@
-*! texsave 1.4.2 17jan2019 by Julian Reif
+*! texsave 1.4.3 8apr2019 by Julian Reif 
+* 1.4.3: width default changed from \textwidth to \linewidth, to improve landscape tables. Added addlinespace() as footnote suboption. Changed default to \addlinespace[\belowrulesep]
 * 1.4.2: added preamble option.
 * 1.4.1: added footnote width option.
 * 1.4: geometry package now required. footnote parameters edited. landscape and geometry options added.
@@ -87,7 +88,7 @@ program define texsave, nclass
 	else local location "tbp"
 	
 	* Set table width
-	if "`width'"=="" local width "\textwidth"
+	if "`width'"=="" local width "\linewidth"
 	
 	* Set default values for delimiter.  Determine what the end-of-line character is for the machine (needed for filefilter command below)
 	if `"`delimiter'"'=="" local delimiter "&"
@@ -108,7 +109,7 @@ program define texsave, nclass
 	}
 	local 0 `"`footnote'"'	
 	gettoken footnote 0 : 0, parse(,)
-		cap syntax, [size(string) width(string)] 
+		cap syntax, [size(string) width(string) addlinespace(string)] 
 		if _rc!=0 {
 			di as error "Invalid syntax for footnote() option"
 			exit 198
@@ -118,6 +119,11 @@ program define texsave, nclass
 	foreach v in using size width varlist if in {
 		local `v' `"`hold_`v''"'
 	}
+	
+	* Footnote spacing option. Default (no footnote) is blank. Default (footnote, user did not specify spacing) is \belowrulesep (suggestion by booktabs package)
+	* http://mirror.utexas.edu/ctan/macros/latex/contrib/booktabs/booktabs.pdf
+	if `"`footnote'"'!=""                          local footnotespace  "\addlinespace[\belowrulesep]"
+	if `"`footnote'"'!="" & `"`addlinespace'"'!="" local footnotespace `"\addlinespace[`addlinespace']"'
 		
 	* Error check the size and footnotesize options. Set default for footnotesize.
 	if "`footnotesize'"=="" local footnotesize "footnotesize"
@@ -287,7 +293,7 @@ program define texsave, nclass
 		file write `fh' "\usepackage[margin=1in]{geometry}" _n
 		if "`landscape'"!="" file write `fh' "\usepackage{pdflscape}" _n
 	}
-	* Preamble option. This is always outputted.
+	* Preamble option. This is always outputted, whether or not frag option is specified
 	if `"`preamble'"' != "" {
 		tokenize `"`preamble'"'
 		while `"`1'"' != "" {
@@ -391,7 +397,7 @@ program define texsave, nclass
 	qui file open `fh' using "`end_file'", write `replace'	
 	
 	* SW has a bug with \bottomrule that requires you to output an extra \\
-	file write `fh' "\bottomrule \addlinespace[1.5ex]" _n(2)	
+	file write `fh' `"\bottomrule `footnotespace'"' _n(2)	
 
 	* Footnote style #1 only done if user specifies width option: this aligns with columns and needs to go before \end{tabularx}
 	if `"`footnote'"'!="" & `"`footnotewidth'"'!="" file write `fh' `"\multicolumn{`num_vars'}{`footnotewidth'}{\begin{`footnotesize'} `footnote'\end{`footnotesize'}}"' _n	

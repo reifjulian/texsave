@@ -24,7 +24,7 @@
 
 {p 8 14 2}{it:footnote_options} are
 
-{p 12 14 2}{cmd:footnote(}{it:string} [, {cmd:size(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)}]{cmd:)}
+{p 12 14 2}{cmd:footnote(}{it:string} [, {cmd:size(}{it:string}{cmd:)} {cmd:addlinespace(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)}]{cmd:)}
 
 {p 8 14 2}and {it:format_options} are
 
@@ -50,7 +50,7 @@ Alternatively, the user may specify a numeric value between 1 and 10, where 1 co
 
 
 {p 4 8 2}
-{cmd:width(}{it:string}{cmd:)} specifies the width of your table. Lengths can be specified in the same way as for {cmd:rowsep} (see below). The default is {it:\textwidth}.
+{cmd:width(}{it:string}{cmd:)} specifies the width of your table. Lengths can be specified in the same way as for {cmd:rowsep} (see below). The default is {it:\linewidth}.
 
 
 {p 4 8 2}
@@ -101,9 +101,12 @@ values are interpreted as the distance from the end of the table.
 
 
 {p 4 8 2}
-{cmd:footnote(}{it:string} [, {cmd:size(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)}]{cmd:)} writes out {it:string}
+{cmd:footnote(}{it:string} [, {cmd:size(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)}] {cmd:addlinespace(}{it:string}{cmd:)}{cmd:)} writes out {it:string}
 in a left-justified footnote at the bottom of the table.  The suboptions allow you to set the size and width of the 
-footnote, using the syntax described by the {cmd:size(}{it:string}{cmd:)} and {cmd:width(}{it:string}{cmd:)} options.
+footnote, using the syntax described by the {cmd:size(}{it:string}{cmd:)} and {cmd:width(}{it:string}{cmd:)} options. The {cmd:addlinespace(}{it:string}{cmd:)}
+suboption writes out "\addlinespace[{it:string}]" just prior the footnote, allowing you to control the 
+amount of spacing between the table and the footnote. (See {cmd:rowsep()} for examples of valid units.}
+The default is "\addlinespace[\belowrulesep]".
 
 
 {p 4 8 2}
@@ -157,7 +160,7 @@ Specify {cmd:nofix} if you are intentionally outputting LaTeX code and don't wan
 
 
 {p 4 8 2}
-{cmd:footlines(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear after the table code in the output.  Each line of code should be surrounded by quotation marks (see example 4 below).
+{cmd:footlines(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear after the "\end{table}" code in the output.  Each line of code should be surrounded by quotation marks (see example 4 below).
 
 
 {p 4 8 2}
@@ -179,11 +182,44 @@ However, it does not check that tables with lots of alignment specifications etc
 It is your responsibility to ensure that you are supplying valid LaTeX code when specifying options such as {cmd:headlines()}, {cmd:align()} etc. 
 See {browse "http://en.wikibooks.org/wiki/LaTeX/Tables"} to learn more about writing LaTeX code for tables.
 
+{p 4 8 2} Occasionally you may want to modify a line in the output file that can't be automated using {cmd:texsave}'s options. 
+The {help filefilter:filefilter} command is helpful in these cases. For example, the following command will remove the "\centering" from the first line of the table output:
+
+{col 12}{cmd:. filefilter "myfile1.tex" "myfile2.tex", from("\begin{table}[tbp] \centering") to("\begin{table}[tbp]")}
+
 
 {title:Notes}
 
-{p 4 8 2}{cmd:texsave} has been tested on Scientific WorkPlace 5.0 and TeXShop 2.18 (as supplied by the August 28, 2008 distribution of MacTeX).
-Please contact the author if you notice problems with other compilers.
+{p 4 8 2}{cmd:texsave} creates a LaTeX table using the following basic structure:
+
+{space 9}{it:\documentclass{article}}
+{space 9}{it:\usepackage{booktabs}}
+{space 9}{it:\usepackage{tabularx}}
+{space 9}{it:\usepackage[margin=1in]{geometry}}
+{space 9}{cmd:preamble(}{it:stringlist}{cmd:)}
+
+{space 9}{it:\begin{document}}
+{space 9}{cmd:headlines(}{it:stringlist}{cmd:)}
+
+{space 9}{it:\begin{table}[tbp] \centering}
+{space 9}{it:\newcolumntype{C}{>{\centering\arraybackslash}X}}
+{space 9}{cmd:title(}{it:string}{cmd:)}
+{space 9}\begin{tabularx}{\linewidth}{lC...C}
+{space 9}{it:\toprule}
+{space 9}{cmd:autonumber}
+{space 9}{cmd:headerlines(}{it:stringlist}{cmd:)}
+
+{space 9}[variable names]
+{space 9}[data]
+
+{space 9}{it:\bottomrule}
+{space 9}{it:\end{tabularx}}
+{space 9}{cmd:footnote(}{it:string}{cmd:)}
+{space 9}{it:\end{table}}
+
+{space 9}{cmd:footlines(}{it:stringlist}{cmd:)}
+{space 9}{it:\end{document}}
+
 
 {title:Examples}
 
