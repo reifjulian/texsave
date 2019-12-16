@@ -1,4 +1,5 @@
-*! texsave 1.4.3 8apr2019 by Julian Reif 
+*! texsave 1.4.4 11dec2019 by Julian Reif 
+* 1.4.4: added headersep() option
 * 1.4.3: width default changed from \textwidth to \linewidth, to improve landscape tables. Added addlinespace() as footnote suboption. Changed default to \addlinespace[\belowrulesep]
 * 1.4.2: added preamble option.
 * 1.4.1: added footnote width option.
@@ -19,7 +20,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) LANDscape GEOmetry(string) replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -64,8 +65,11 @@ program define texsave, nclass
 	* Define a horizontal line
 	local horiz_line "\midrule"
 	
-	* Define row separation spacing if applicable
+	* Define row and header separation spacing if applicable. (rowsep uses "\BS" since it is implemented via filefilter)
 	if `"`rowsep'"'!="" local rowsep `" \BSaddlinespace[`rowsep']"'
+	
+	if `"`headersep'"'!="" local headersep `" \addlinespace[`headersep']"'
+	else local headersep `" \addlinespace[\belowrulesep]"'
 	
 	* Append .tex extension if no extension present
 	if strpos(`"`using'"',".") == 0 local using `"`using'.tex"'
@@ -199,6 +203,9 @@ program define texsave, nclass
 			local run_no = `run_no'+1
 		}
 		local header_autonumber `"`header_autonumber' \tabularnewline"'
+		
+		* If variable names are also being written out, add an additional horizontal line
+		if "`names'"=="" local header_autonumber `"`header_autonumber' `horiz_line'"'
 	}
 	
 	* Column names (either varlabels or Stata column names) - don't write these out if user specifies -nonames-
@@ -338,7 +345,7 @@ program define texsave, nclass
 	if "`header_colnames'"!=""	    qui file write `fh' "`header_colnames'" _n
 
 	* Only write out a horizontal line if there is a header	
-	if `"`header_headerlines'`autonumber'`header_colnames'"'!="" qui file write `fh' "`horiz_line'\addlinespace[1.5ex]" _n
+	if `"`header_headerlines'`autonumber'`header_colnames'"'!="" qui file write `fh' "`horiz_line'`headersep'" _n
 	file close `fh'
 	
 	*********

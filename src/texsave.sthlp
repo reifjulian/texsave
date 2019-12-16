@@ -127,6 +127,13 @@ The length can be expressed in the following units: {it:cm} (centimetres), {it:e
 (the height of the letter x in the current font), {it:in} (inches), {it:pc} (picas), {it:pt} (points) or {it:mm} (millimetres). 
 For example, {cmd:rowsep(}{it:1cm}{cmd:)} adds one centimeter of vertical space between rows.
 
+
+{p 4 8 2}
+{cmd:headersep(}{it:string}{cmd:)} adds vertical spacing of length {it:string} between the header row and the data rows via the {it:\addlinespace} command.
+It uses the same syntax as {cmd:rowsep(}{it:string}{cmd:)}.
+The default is "\addlinespace[\belowrulesep]".
+
+
 {p 4 8 2}
 {cmd:frag} omits from the output LaTeX code like {it:\begin{c -(}document{c )-}} that is needed to create a standalone document. This makes {it:filename} a fragment, which
 is useful if you want to use LaTeX's {it:\input{c -(}table{c )-}} command to include your table as a subfile.
@@ -210,6 +217,7 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 {space 9}{cmd:headerlines(}{it:stringlist}{cmd:)}
 
 {space 9}[variable names]
+{space 9}{it:\midrule\addlinespace[}{cmd:headersep(}{it:string}{cmd:)}{it:]}
 {space 9}[data]
 
 {space 9}{it:\bottomrule}

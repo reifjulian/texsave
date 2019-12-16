@@ -1,14 +1,17 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.4.2 17jan2019`
+- Current version: `1.4.4 11dec2019`
 - Jump to: [`updates`](#recent-updates) [`install`](#install) [`description`](#description) [`author`](#author)
 
 -----------
 
 ## Updates:
 
+* **December 11, 2019**
+  - Added `headersep()` option, with new default: `\addlinespace[\belowrulesep]`
+
 * **January 17, 2019**
-  - Added ```preamble()``` option
+  - Added `preamble()` option
 
 ## Install:
 

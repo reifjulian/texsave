@@ -66,7 +66,7 @@ version 10.1
 	label var reg1 "Regression 1"
 	label var reg2 "Regression 2"
 	label var reg3 "Regression 3"
-	texsave using "regsave example2.tex", title(Regression results) footnote("A */** next to the coefficient indicates significance at the 10/5% level") varlabels autonumber hlines(8) replace
+	texsave using "regsave example2.tex", title(Regression results) footnote("A */** next to the coefficient indicates significance at the 10/5% level") varlabels autonumber hlines(8) headersep(2ex) replace
 	cap texsave using "regsave example2.tex", title(Regression results) footnote("A */** next to the coefficient indicates significance at the 10/5% level") varlabels nonames hlines(8) replace
 	assert _rc==198
 	
