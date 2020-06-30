@@ -1,4 +1,5 @@
-*! texsave 1.4.4 11dec2019 by Julian Reif 
+*! texsave 1.4.5 30jun2020 by Julian Reif 
+* 1.4.5: -fix- option now changes "-" to "--" for negative numbers
 * 1.4.4: added headersep() option
 * 1.4.3: width default changed from \textwidth to \linewidth, to improve landscape tables. Added addlinespace() as footnote suboption. Changed default to \addlinespace[\belowrulesep]
 * 1.4.2: added preamble option.
@@ -243,6 +244,7 @@ program define texsave, nclass
 	}
 	if "`fix'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" {
 		
+		tempvar index_neg
 		local renamed = "yes"
 		
 		* Variables - create new temporary ones that have bad chars stripped out of them and are formatted as specified by user
@@ -254,7 +256,7 @@ program define texsave, nclass
 			capture confirm string var `v'
 			if _rc==0 {
 								
-				* Fix problematic symbols
+				* Fix problematic symbols and reformat negative signs from "-" to "--" (en-dash)
 				if "`fix'"=="" {
 					foreach symbol in _ & % # $ & ~ {
 						qui replace `v' = subinstr(`v',"`symbol'","\\`symbol'",.)
@@ -262,7 +264,12 @@ program define texsave, nclass
 					qui replace `v' = subinstr(`v',"{","\{",.)
 					qui replace `v' = subinstr(`v',"}","\}",.)
 					qui replace `v' = subinstr(`v',"^","\^{}",.)
-				}
+					
+					* Only reformat negative signs if they are followed by a number and not preceded by an alphabetic character or negative sign
+					qui gen `index_neg' = strpos(`v',"-")
+					qui replace `v' = subinstr(`v',"-","--",1) if real(substr(`v',`index_neg'+1,1))!=. & regexm(substr(`v',`index_neg'-1,1),"[A-Za-z\-]")!=1
+					drop `index_neg'
+				}				
 				
 				* Formatting options
 				local tex_code "\textbf{ \textit{ \underline{ \textsl{ \textsc{ \textsf{ \texttt{ \emph{"
