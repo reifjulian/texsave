@@ -1,4 +1,6 @@
-* Run several examples
+cscript texsave adofile texsave
+
+clear
 set more off
 adopath ++ "../src"
 version 10.1
@@ -43,7 +45,7 @@ version 10.1
 * 6. Do some bolding, italicizing, and underlining
 	sysuse auto.dta, clear
 	texsave make mpg trunk if price > 8000 using "example6.tex", slanted("Deville") smallcaps("Continental") sansserif("Mark") monospace("Datsun") emphasis("Volvo") bold("Buick") underline("Buick" "Olds") italics("Eldorado") replace
-	
+			
 	* Regsave example
 	sysuse auto.dta, clear
 	regress price mpg trunk
@@ -60,7 +62,7 @@ version 10.1
 	replace var = "R-squared" if var == "r2"
 	replace var = "Observations" if var=="N"
 	rename var Regressor
-	
+
 	texsave using "regsave example1.tex", title(Regression results) footnote("A */** next to the coefficient indicates significance at the 10/5% level") autonumber hlines(8) nonames replace
 	
 	label var reg1 "Regression 1"
@@ -84,6 +86,27 @@ version 10.1
 	local fn "This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote."
 	texsave make mpg trunk weight length displacement turn using "example9.1.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'")
 	texsave make mpg trunk weight length displacement turn using "example9.2.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'", width("p{16cm}"))
+
+* 10. Fix option
+	sysuse auto, clear
+	gen number = string(headroom)
+	replace number = string(headroom*-1) if mpg>15
+	replace number = "[" + number + "]" if mod(_n,5)==0
+	replace number = "(" + number + ")" if mod(_n,5)==2
+	replace number = "(" + number + "**" if mod(_n,5)==3
+	replace number = "x-4g" in 11
+	
+	gen string = "var_1" in 1
+	replace string = "var%2" in 2
+	replace string = "var#3" in 3
+	replace string = "var$4" in 4
+	replace string = "var&5" in 5
+	replace string = "var~6" in 6
+	replace string = "var^6" in 7
+	
+	
+	texsave make number string using "example10.1.tex" if _n<30, title("title_%#&") replace footnote("fn_%#&")
+	texsave make number string using "example10.2.tex" if _n<30, title("title_%#&") replace footnote("fn_%#&") noendash
 	
 
 ** EOF
