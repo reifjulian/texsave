@@ -1,11 +1,14 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.4.4 11dec2019`
+- Current version: `1.4.5 1jul2020`
 - Jump to: [`updates`](#recent-updates) [`install`](#install) [`description`](#description) [`author`](#author)
 
 -----------
 
 ## Updates:
+
+* **July 1, 2020**
+  - `texsave` now ouputs en dash's instead of hyphens for negative numbers. Specifying `noendash` restores previous behavior.
 
 * **December 11, 2019**
   - Added `headersep()` option, with new default: `\addlinespace[\belowrulesep]`
