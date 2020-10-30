@@ -10,7 +10,7 @@
 
 {p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)}
 {cmd:width(}{it:string}{cmd:)} {cmd:align(}{it:string}{cmd:)} {cmdab:loc:ation(}{it:string}{cmd:)}
-{cmd:marker(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{it:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
+{cmd:label(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{it:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
 {cmdab:varlab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
 {cmd:rowsep(}{it:string}{cmd:)} {cmd:frag} {cmd:nonames} {cmd:sw} {cmd:nofix} {cmd:noendash}
 {cmd:preamble(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:headerlines(}{it:stringlist}{cmd:)}  
@@ -87,7 +87,7 @@ The default is to left-justify the first column and center and distribute space 
 
 
 {p 4 8 2}
-{cmd:marker(}{it:string}{cmd:)} uses LaTeX's \label option to mark your table with the key {it:string}.
+{cmd:label(}{it:string}{cmd:)} uses LaTeX's {it:\label} option to mark your table with the key {it:string}.
 
 
 {p 4 8 2}

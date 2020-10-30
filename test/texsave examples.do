@@ -107,7 +107,17 @@ version 10.1
 	
 	texsave make number string using "example10.1.tex" if _n<30, title("title_%#&") replace footnote("fn_%#&")
 	texsave make number string using "example10.2.tex" if _n<30, title("title_%#&") replace footnote("fn_%#&") noendash
-	
 
+* New label option
+  sysuse auto, clear
+  cap texsave using "example11.tex" if price>6000, landscape title("My autos") replace marker(my autos) label(my)
+  assert _rc==198
+  texsave using "example11a.tex" if price>6000, landscape title("My autos") replace marker(my autos)
+  texsave using "example11b.tex" if price>6000, landscape title("My autos") replace label(my autos)
+	
+	
+use results.dta, clear
+cf _all using "standards/results.dta"
+	
 ** EOF
 

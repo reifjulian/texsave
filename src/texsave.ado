@@ -1,4 +1,5 @@
-*! texsave 1.4.5 1jul2020 by Julian Reif 
+*! texsave 1.4.6 22oct2020 by Julian Reif 
+* 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
 * 1.4.3: width default changed from \textwidth to \linewidth, to improve landscape tables. Added addlinespace() as footnote suboption. Changed default to \addlinespace[\belowrulesep]
@@ -21,7 +22,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -77,6 +78,15 @@ program define texsave, nclass
 
 	* Get number of vars/columns
 	local num_vars : word count `varlist'
+	
+	* Label option overloads the marker option
+	if !mi(`"`label'"') {
+		if !mi(`"`marker'"') {
+			di as error "Cannot specify both the label and marker options"
+			exit 198	
+		}
+		local marker `"`label'"'
+	}
 
 	* Error check the location option.  Set default to "tbp"
 	if `"`location'"'!="" {
