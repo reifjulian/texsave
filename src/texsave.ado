@@ -1,4 +1,4 @@
-*! texsave 1.5 1nov2020 by Julian Reif 
+*! texsave 1.5 2nov2020 by Julian Reif 
 * 1.5: added decimalalign option
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
@@ -333,20 +333,8 @@ program define texsave, nclass
 		file write `fh' "\usepackage{booktabs}" _n
 		file write `fh' "\usepackage{tabularx}" _n
 		file write `fh' "\usepackage[margin=1in]{geometry}" _n
-		if "`landscape'"!="" file write `fh' "\usepackage{pdflscape}" _n
-		if "`decimalalign'"!="" {
-			file write `fh' "\usepackage{siunitx}" _n
-			file write `fh' "\sisetup{" _n
-			file write `fh' "  detect-mode," _n
-			file write `fh' "  tight-spacing = true," _n
-			file write `fh' "  group-digits = false ," _n
-			file write `fh' "  input-signs = ," _n
-			file write `fh' "  input-symbols = ( ) [ ] - + *," _n
-			file write `fh' "  input-open-uncertainty = ," _n
-			file write `fh' "  input-close-uncertainty    = ," _n
-			file write `fh' "  table-align-text-post = false" _n
-			file write `fh' "}" _n
-		}
+		if "`landscape'"!=""    file write `fh' "\usepackage{pdflscape}" _n
+		if "`decimalalign'"!="" file write `fh' "\usepackage{siunitx}" _n
 	}
 	* Preamble option. This is always outputted, whether or not frag option is specified
 	if `"`preamble'"' != "" {
