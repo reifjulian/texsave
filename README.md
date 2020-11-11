@@ -34,7 +34,7 @@ After installing, type `help texsave` to learn the syntax.
   - Added support for aligning numeric values at the decimal point using the `siunitx` package
 
 * **July 1, 2020**
-  - `texsave` now ouputs en dash's instead of hyphens for negative numbers. Specifying `noendash` restores previous behavior.
+  - `texsave` now outputs en dash's instead of hyphens for negative numbers. Specifying `noendash` restores previous behavior.
 
 * **December 11, 2019**
   - Added `headersep()` option, with new default: `\addlinespace[\belowrulesep]`
