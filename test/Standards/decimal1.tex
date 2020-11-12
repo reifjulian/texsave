@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[margin=1in]{geometry}
+\usepackage{siunitx}
+\begin{document}
+
+\begin{table}[tbp] \centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\caption{MPG and trunk space}
+\begin{tabularx}{\linewidth}{lSS}
+
+\toprule
+{mpg}&{trunk}&{price} \tabularnewline
+\midrule \addlinespace[\belowrulesep]
+-1.08857&11&2.049285 \tabularnewline
+.8411677&11&2.374251 \tabularnewline
+1.08857&12&1.899301 \tabularnewline
+-.9896091&16&2.407747 \tabularnewline
+.7422068&20&3.913089 \tabularnewline
+.8906482&21&2.893696 \tabularnewline
+-1.286492&10&2.226266 \tabularnewline
+.9896091&16&2.594228 \tabularnewline
+.7916873&17&5.185455 \tabularnewline
+-.9401286&13&2.040786 \tabularnewline
+.6927264&20&563.335 \tabularnewline
+.6927264&16&717.4666 \tabularnewline
+-1.03909&13&787.0361 \tabularnewline
+1.434933&9&163.236 \tabularnewline
+.7916873&20&282.286 \tabularnewline
+-1.08857&17&222.86 \tabularnewline
+1.08857&16&252.5482 \tabularnewline
+1.187531&7&181.4448 \tabularnewline
+-.9401286&13&195.6952 \tabularnewline
+1.484414&8&197.1301 \tabularnewline
+\bottomrule \addlinespace[\belowrulesep]
+
+\end{tabularx}
+\begin{flushleft}
+\footnotesize Variable trunk measured in cubic feet
+\end{flushleft}
+\end{table}
+\end{document}

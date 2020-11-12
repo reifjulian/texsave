@@ -5,6 +5,7 @@ set more off
 adopath ++ "../src"
 version 10.1
 
+
 * 1. Output a table with a title and a footnote.
 
    sysuse auto.dta, clear
@@ -115,7 +116,27 @@ version 10.1
   texsave using "example11a.tex" if price>6000, landscape title("My autos") replace marker(my autos)
   texsave using "example11b.tex" if price>6000, landscape title("My autos") replace label(my autos)
 	
-	
+***	
+* Decimalalign examples
+***
+	* Default align is "lSS"
+	sysuse auto.dta, clear
+	replace price = price/2000.21 in 1/10
+	replace price = price/20.21 in 11/l
+	replace mpg = mpg/20.21 in 1/10
+	replace mpg = mpg/20.21 in 11/l
+	replace mpg = -mpg if mod(_n,3)==1
+	texsave mpg trunk price in 1/20 using "decimal1.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) decimal replace
+
+	* User specifies align "SSS"
+	texsave mpg trunk price in 1/20 using "decimal2.tex", title(my title) footnote(My footnote) align(SSS) decimal replace
+
+	* String data with mix of text and numbers
+	tostring mpg price, replace force format(%5.4fc)
+	replace price = "some text" in 10
+	texsave mpg trunk price in 1/20 using "decimal3.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) decimal replace	
+
+
 use results.dta, clear
 cf _all using "standards/results.dta"
 	
