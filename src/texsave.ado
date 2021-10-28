@@ -1,5 +1,5 @@
-*! texsave 1.5 2nov2020 by Julian Reif 
-* 1.5: added decimalalign option
+*! texsave 1.5.1 28oct2021 by Julian Reif 
+* 1.5.1: added dataonly option
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
@@ -23,7 +23,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -481,8 +481,12 @@ program define texsave, nclass
 	********
 	** Append table start ("using"), data, and table end together
 	********
-	appendfile "`data2'" "`using'"
-	appendfile "`end_file'" "`using'"
+	
+	if "`dataonly'"!="" copy "`data2'" "`using'", public replace
+	else {
+		appendfile "`data2'" "`using'"
+		appendfile "`end_file'" "`using'"
+	}
 	
 	* Return vars to original state
 	if "`renamed'"=="yes" {

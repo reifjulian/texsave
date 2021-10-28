@@ -14,7 +14,7 @@
 {cmdab:varlab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
 {cmd:rowsep(}{it:string}{cmd:)} {cmdab:decimal:align} {cmd:nonames} {cmd:nofix} {cmd:noendash}
 {cmd:preamble(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:headerlines(}{it:stringlist}{cmd:)}  
-{cmd:footlines(}{it:stringlist}{cmd:)} {cmd:sw} {cmd:frag} {cmd:replace} {it:format_options}]
+{cmd:footlines(}{it:stringlist}{cmd:)} {cmd:sw} {cmd:frag} {cmd:dataonly} {cmd:replace} {it:format_options}]
 
 {p 4 4 2}where
 
@@ -177,7 +177,13 @@ By default, {cmd:texsave} adds a backslash (\) in front of these characters in o
 {p 4 8 2}
 {cmd:frag} omits from the output LaTeX code like {it:\begin{c -(}document{c )-}} that is needed to create a standalone document. This makes {it:filename} a fragment, which
 is useful if you want to use LaTeX's {it:\input{c -(}table{c )-}} command to include your table as a subfile.
-An alternative is to use the LaTeX package {browse "http://ctan.org/pkg/standalone":standalone}, which instructs LaTeX to skip extra premables when including subfiles. 
+An alternative is to use the LaTeX package {browse "http://ctan.org/pkg/standalone":standalone}, which instructs LaTeX to skip extra preambles when including subfiles. 
+
+
+{p 4 8 2}
+{cmd:dataonly} is a programmer's option that outputs only the contents of the dataset.
+It omits variable names, footnotes, and all other LaTeX code that surrounds the contents of the table. 
+The resulting output will not compile into a table.
 
 
 {p 4 8 2}

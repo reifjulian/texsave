@@ -5,7 +5,6 @@ set more off
 adopath ++ "../src"
 version 10.1
 
-
 * 1. Output a table with a title and a footnote.
 
    sysuse auto.dta, clear
@@ -115,6 +114,11 @@ version 10.1
   assert _rc==198
   texsave using "example11a.tex" if price>6000, landscape title("My autos") replace marker(my autos)
   texsave using "example11b.tex" if price>6000, landscape title("My autos") replace label(my autos)
+
+  * New dataonly option
+   sysuse auto.dta, clear
+   texsave make mpg trunk if price > 8000 using "example12.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) dataonly replace
+  
 	
 ***	
 * Decimalalign examples
