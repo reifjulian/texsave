@@ -126,6 +126,10 @@ version 10.1
    format mpg %16H   
    texsave make mpg trunk if price > 8000 using "example13.tex", displayformat replace
 
+* 14. New valuelabels option 
+   sysuse auto.dta, clear
+   format trunk %3.1fc
+   texsave make mpg trunk foreign if price > 8000 using "example14.tex", valuelabels replace   
   	
 ***	
 * Decimalalign examples

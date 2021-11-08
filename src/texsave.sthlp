@@ -11,7 +11,7 @@
 {p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)}
 {cmd:width(}{it:string}{cmd:)} {cmd:align(}{it:string}{cmd:)} {cmdab:loc:ation(}{it:string}{cmd:)}
 {cmd:label(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{help numlist:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
-{cmdab:varlab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
+{cmdab:varlab:els} {cmdab:valuelab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
 {cmd:rowsep(}{it:string}{cmd:)} {cmd:headersep(}{it:string}{cmd:)} {cmdab:decimal:align} {cmd:nonames} {cmd:nofix} 
 {cmd:preamble(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:headerlines(}{it:stringlist}{cmd:)}  
 {cmd:footlines(}{it:stringlist}{cmd:)} {cmd:frag} {cmd:dataonly} {cmd:replace} {it:format_options}]
@@ -111,6 +111,10 @@ The default is "\addlinespace[\belowrulesep]".
 
 {p 4 8 2}
 {cmd:varlabels} specifies that variable labels be written in the table header instead of variable names.
+
+
+{p 4 8 2}
+{cmd:valuelabels} specifies that value labels of labeled variables be outputted instead of numeric values.
 
 
 {p 4 8 2}

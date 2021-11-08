@@ -1,5 +1,5 @@
 *! texsave 1.5.1 8nov2021 by Julian Reif 
-* 1.5.1: added dataonly and displayformat options
+* 1.5.1: added dataonly, displayformat, and valuelabels options
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
@@ -23,7 +23,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly DISPLAYformat replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly DISPLAYformat replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -38,6 +38,8 @@ program define texsave, nclass
 		exit 198
 	}
 
+	* By default, value labels are not written out
+	if "`valuelabels'"=="" local nolabel nolabel
 	
 	* Error check hlines
 	if "`hlines'"!="" {
@@ -260,7 +262,7 @@ program define texsave, nclass
 	}
 	
 	* User-specified options that alter the dataset
-	*  - Temporary rename original variables
+	*  - Temporarily rename original variables
 	*  - Create new tempvar that has the modified contents (eg, braces removed, numeric format altered)
 	*  - At the end of the texsave program, drop the tempvars and rename the original vars back to their original names
 	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'`displayformat'"!="" {
@@ -274,8 +276,11 @@ program define texsave, nclass
 			ren `v' ``v'temp'
 			gen `v' = ``v'temp'
 			
+			* Retain display formatting and value labels
 			local varformat : format ``v'temp'
-			format `v' `varformat'
+			format `v' `varformat'			
+			local vallabel : value label ``v'temp'
+			cap label values `v' `vallabel'
 
 			capture confirm string var `v'
 			if _rc==0 {
@@ -414,7 +419,7 @@ program define texsave, nclass
 			
 			* First group
 			if `grp'==1 {
-				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',1,``grp'') using "`data1'", replace delimiter(`delimiter') nonames noquote
+				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',1,``grp'') using "`data1'", replace delimiter(`delimiter') nonames noquote `nolabel'
 			}
 			
 			* Rest of groups
@@ -434,13 +439,13 @@ program define texsave, nclass
 				}
 				
 				* Append next group
-				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',`g1',`g2') using "`tmp'", replace delimiter(`delimiter') nonames noquote
+				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',`g1',`g2') using "`tmp'", replace delimiter(`delimiter') nonames noquote `nolabel'
 				appendfile "`tmp'" "`data1'"
 			}
 		}		
 	}
 	
-	else qui outsheet `varlist' `if' `in' using "`data1'", replace delimiter(`delimiter') nonames noquote
+	else qui outsheet `varlist' `if' `in' using "`data1'", replace delimiter(`delimiter') nonames noquote `nolabel'
 	filefilter "`data1'" "`data2'", from("`eol_char'") to(" \BStabularnewline`rowsep'`eol_char'") replace
 
 	*********
