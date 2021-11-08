@@ -109,27 +109,21 @@ version 10.1
 	texsave make number string using "example10.1.tex" if _n<30, title("title_%#&") replace footnote("fn_%#&")
 	texsave make number string using "example10.2.tex" if _n<30, title("title_%#&") replace footnote("fn_%#&") noendash
 
-* New label option
+* 11. New label option
   sysuse auto, clear
   cap texsave using "example11.tex" if price>6000, landscape title("My autos") replace marker(my autos) label(my)
   assert _rc==198
   texsave using "example11a.tex" if price>6000, landscape title("My autos") replace marker(my autos)
   texsave using "example11b.tex" if price>6000, landscape title("My autos") replace label(my autos)
 
-  * New dataonly option
+  * 12. New dataonly option
    sysuse auto.dta, clear
    texsave make mpg trunk if price > 8000 using "example12.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) dataonly replace
-  
-* 13. New displayformat option 
+   
+* 13. New valuelabels option 
    sysuse auto.dta, clear
    format trunk %3.1fc
-   format mpg %16H   
-   texsave make mpg trunk if price > 8000 using "example13.tex", displayformat replace
-
-* 14. New valuelabels option 
-   sysuse auto.dta, clear
-   format trunk %3.1fc
-   texsave make mpg trunk foreign if price > 8000 using "example14.tex", valuelabels replace   
+   texsave make mpg trunk foreign if price > 8000 using "example13.tex", valuelabels replace   
   	
 ***	
 * Decimalalign examples

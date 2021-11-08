@@ -26,7 +26,7 @@
 
 {p 8 14 2}and {it:format_options} are
 
-{p 12 14 2}{cmdab:display:format} {cmd:noendash} {cmd:bold(}{it:stringlist}{cmd:)} {cmd:italics(}{it:stringlist}{cmd:)} {cmd:underline(}{it:stringlist}{cmd:)} {cmd:slanted(}{it:stringlist}{cmd:)} {cmd:smallcaps(}{it:stringlist}{cmd:)}
+{p 12 14 2}{cmd:noendash} {cmd:bold(}{it:stringlist}{cmd:)} {cmd:italics(}{it:stringlist}{cmd:)} {cmd:underline(}{it:stringlist}{cmd:)} {cmd:slanted(}{it:stringlist}{cmd:)} {cmd:smallcaps(}{it:stringlist}{cmd:)}
 {cmd:sansserif(}{it:stringlist}{cmd:)} {cmd:monospace(}{it:stringlist}{cmd:)} {cmd:emphasis(}{it:stringlist}{cmd:)}
 
 
@@ -188,9 +188,6 @@ The resulting output will not compile into a table.
 {it:format_options}: 
 
 {p 12 14 2}
-{cmd:displayformat} outputs numeric values in the current {help format:format} used for each variable. 
-
-{p 12 14 2}
 {cmd:noendash} specifies that negative signs ("-") not be converted to en dashes ("--") in the dataset.
 
 {p 12 14 2}
@@ -307,3 +304,4 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 {help regsave:regsave} (if installed),
 {help outreg2:outreg2} (if installed),
 {help filefilter:filefilter}
+

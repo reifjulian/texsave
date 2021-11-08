@@ -1,5 +1,5 @@
 *! texsave 1.5.1 8nov2021 by Julian Reif 
-* 1.5.1: added dataonly, displayformat, and valuelabels options
+* 1.5.1: added dataonly and valuelabels options
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
@@ -23,7 +23,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly DISPLAYformat replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -263,9 +263,9 @@ program define texsave, nclass
 	
 	* User-specified options that alter the dataset
 	*  - Temporarily rename original variables
-	*  - Create new tempvar that has the modified contents (eg, braces removed, numeric format altered)
+	*  - Create new tempvar that has the modified contents (eg, braces removed)
 	*  - At the end of the texsave program, drop the tempvars and rename the original vars back to their original names
-	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'`displayformat'"!="" {
+	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'"!="" {
 		
 		tempvar index_neg isreal
 		local renamed = "yes"
@@ -326,9 +326,6 @@ program define texsave, nclass
 					drop `isreal'
 				}
 			}
-			
-			* Format numeric variables using their user-specifed display formats
-			if "`displayformat'"!="" qui tostring `v', replace force usedisplayformat
 		}
 	}
 
