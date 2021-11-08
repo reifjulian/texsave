@@ -10,15 +10,13 @@
 
 {p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)}
 {cmd:width(}{it:string}{cmd:)} {cmd:align(}{it:string}{cmd:)} {cmdab:loc:ation(}{it:string}{cmd:)}
-{cmd:label(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{it:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
+{cmd:label(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{help numlist:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
 {cmdab:varlab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
-{cmd:rowsep(}{it:string}{cmd:)} {cmdab:decimal:align} {cmd:nonames} {cmd:nofix} {cmd:noendash}
+{cmd:rowsep(}{it:string}{cmd:)} {cmd:headersep(}{it:string}{cmd:)} {cmdab:decimal:align} {cmd:nonames} {cmd:nofix} 
 {cmd:preamble(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:headerlines(}{it:stringlist}{cmd:)}  
-{cmd:footlines(}{it:stringlist}{cmd:)} {cmd:sw} {cmd:frag} {cmd:dataonly} {cmd:replace} {it:format_options}]
+{cmd:footlines(}{it:stringlist}{cmd:)} {cmd:frag} {cmd:dataonly} {cmd:replace} {it:format_options}]
 
 {p 4 4 2}where
-
-{p 8 14 2}{it: numlist} is a list of numbers with blanks or commas in between (see {help numlist:[U] numlist} for details),
 
 {p 8 14 2}{it: stringlist} is a list of quoted strings,
 
@@ -28,7 +26,7 @@
 
 {p 8 14 2}and {it:format_options} are
 
-{p 12 14 2}{cmd:bold(}{it:stringlist}{cmd:)} {cmd:italics(}{it:stringlist}{cmd:)} {cmd:underline(}{it:stringlist}{cmd:)} {cmd:slanted(}{it:stringlist}{cmd:)} {cmd:smallcaps(}{it:stringlist}{cmd:)}
+{p 12 14 2}{cmdab:display:format} {cmd:noendash} {cmd:bold(}{it:stringlist}{cmd:)} {cmd:italics(}{it:stringlist}{cmd:)} {cmd:underline(}{it:stringlist}{cmd:)} {cmd:slanted(}{it:stringlist}{cmd:)} {cmd:smallcaps(}{it:stringlist}{cmd:)}
 {cmd:sansserif(}{it:stringlist}{cmd:)} {cmd:monospace(}{it:stringlist}{cmd:)} {cmd:emphasis(}{it:stringlist}{cmd:)}
 
 
@@ -98,7 +96,7 @@ This is useful when outputting regression results stored by a command like {help
 
 
 {p 4 8 2}
-{cmd:hlines(}{it:numlist}{cmd:)} draws horizontal lines below each row specified in {it:numlist}.  Specify a row's number twice to output a double line. Negative 
+{cmd:hlines(}{help numlist:numlist}{cmd:)} draws horizontal lines below each row specified in {help numlist:numlist}.  Specify a row's number twice to output a double line. Negative 
 values are interpreted as the distance from the end of the table.
 
 
@@ -137,7 +135,7 @@ The default is "\addlinespace[\belowrulesep]".
 
 
 {p 4 8 2}
-{cmd:decimalalign} aligns numeric values at the decimal point using the {it:siunitx} package. 
+{cmd:decimalalign} aligns numeric values at the decimal point using the {it:siunitx} package.
 
 
 {p 4 8 2}
@@ -148,10 +146,6 @@ The default is "\addlinespace[\belowrulesep]".
 {cmd:nofix} instructs {cmd:texsave} to write out all data, titles and footnotes exactly as they appear in Stata. 
 The following non-alphanumeric characters have special meaning in LaTeX: _ % # $ & ~  ^ \ { }.
 By default, {cmd:texsave} adds a backslash (\) in front of these characters in order to prevent LaTeX compile errors.
-
-
-{p 4 8 2}
-{cmd:noendash} specifies that negative signs ("-") not be converted to en dashes ("--") in the dataset.
 
 
 {p 4 8 2}
@@ -171,10 +165,6 @@ By default, {cmd:texsave} adds a backslash (\) in front of these characters in o
 
 
 {p 4 8 2}
-{cmd:sw} instructs {cmd:texsave} to include macro code that can be read by Scientific Word (SW) so that full SW functionality is retained.
-
-
-{p 4 8 2}
 {cmd:frag} omits from the output LaTeX code like {it:\begin{c -(}document{c )-}} that is needed to create a standalone document. This makes {it:filename} a fragment, which
 is useful if you want to use LaTeX's {it:\input{c -(}table{c )-}} command to include your table as a subfile.
 An alternative is to use the LaTeX package {browse "http://ctan.org/pkg/standalone":standalone}, which instructs LaTeX to skip extra preambles when including subfiles. 
@@ -191,7 +181,16 @@ The resulting output will not compile into a table.
 
 
 {p 4 8 2}
-{it:format_options}: {cmd:bold(), italics(), underline(), slanted(), smallcaps(), sansserif(), monospace(),} and {cmd:emphasis()} allow you to format the data values in your table.  
+{it:format_options}: 
+
+{p 12 14 2}
+{cmd:displayformat} outputs numeric values in the current {help format:format} used for each variable. 
+
+{p 12 14 2}
+{cmd:noendash} specifies that negative signs ("-") not be converted to en dashes ("--") in the dataset.
+
+{p 12 14 2}
+{cmd:bold(), italics(), underline(), slanted(), smallcaps(), sansserif(), monospace(),} and {cmd:emphasis()} allow you to format the data values in your table.  
 For example, {cmd:underline(}{it:"word1" "word2"}{cmd:)} underlines all data values containing either {it:"word1"} or {it:"word2"}.
 
 

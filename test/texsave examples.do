@@ -5,6 +5,7 @@ set more off
 adopath ++ "../src"
 version 10.1
 
+
 * 1. Output a table with a title and a footnote.
 
    sysuse auto.dta, clear
@@ -119,7 +120,13 @@ version 10.1
    sysuse auto.dta, clear
    texsave make mpg trunk if price > 8000 using "example12.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) dataonly replace
   
-	
+* 13. New displayformat option 
+   sysuse auto.dta, clear
+   format trunk %3.1fc
+   format mpg %16H   
+   texsave make mpg trunk if price > 8000 using "example13.tex", displayformat replace
+
+  	
 ***	
 * Decimalalign examples
 ***

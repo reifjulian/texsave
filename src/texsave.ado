@@ -1,5 +1,5 @@
-*! texsave 1.5.1 28oct2021 by Julian Reif 
-* 1.5.1: added dataonly option
+*! texsave 1.5.1 8nov2021 by Julian Reif 
+* 1.5.1: added dataonly and displayformat options
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
@@ -23,7 +23,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly DISPLAYformat replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -259,21 +259,27 @@ program define texsave, nclass
 		}
 	}
 	
-	* Dataset corrections
-	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'"!="" {
+	* User-specified options that alter the dataset
+	*  - Temporary rename original variables
+	*  - Create new tempvar that has the modified contents (eg, braces removed, numeric format altered)
+	*  - At the end of the texsave program, drop the tempvars and rename the original vars back to their original names
+	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'`displayformat'"!="" {
 		
 		tempvar index_neg isreal
 		local renamed = "yes"
 		
 		* Variables - create new temporary ones that have bad chars stripped out of them and are formatted as specified by user
-		foreach v of local varlist {
+		qui foreach v of local varlist {
 			tempname `v'temp
-			qui ren `v' ``v'temp'
-			qui gen `v' = ``v'temp'
+			ren `v' ``v'temp'
+			gen `v' = ``v'temp'
 			
+			local varformat : format ``v'temp'
+			format `v' `varformat'
+
 			capture confirm string var `v'
 			if _rc==0 {
-								
+
 				* Fix problematic symbols 
 				if "`fix'"=="" {
 					foreach symbol in _ % # $ & ~ {
@@ -314,7 +320,10 @@ program define texsave, nclass
 					replace `v' = "{" + `v' + "}" if mi(`isreal')
 					drop `isreal'
 				}
-			}			
+			}
+			
+			* Format numeric variables using their user-specifed display formats
+			if "`displayformat'"!="" qui tostring `v', replace force usedisplayformat
 		}
 	}
 
