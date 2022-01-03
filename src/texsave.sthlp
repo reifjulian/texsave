@@ -12,7 +12,7 @@
 {cmd:width(}{it:string}{cmd:)} {cmd:align(}{it:string}{cmd:)} {cmdab:loc:ation(}{it:string}{cmd:)}
 {cmd:label(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{help numlist:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
 {cmdab:varlab:els} {cmdab:valuelab:els} {cmdab:land:scape}  {cmdab:geo:metry(}{it:string}{cmd:)}
-{cmd:rowsep(}{it:string}{cmd:)} {cmd:headersep(}{it:string}{cmd:)} {cmdab:decimal:align} {cmd:nonames} {cmd:nofix} 
+{cmd:rowsep(}{it:string}{cmd:)} {cmd:headersep(}{it:string}{cmd:)} {cmdab:decimal:align} {cmd:nonames}
 {cmd:preamble(}{it:stringlist}{cmd:)} {cmd:headlines(}{it:stringlist}{cmd:)} {cmd:headerlines(}{it:stringlist}{cmd:)}  
 {cmd:footlines(}{it:stringlist}{cmd:)} {cmd:frag} {cmd:dataonly} {cmd:replace} {it:format_options}]
 
@@ -26,7 +26,8 @@
 
 {p 8 14 2}and {it:format_options} are
 
-{p 12 14 2}{cmd:noendash} {cmd:bold(}{it:stringlist}{cmd:)} {cmd:italics(}{it:stringlist}{cmd:)} {cmd:underline(}{it:stringlist}{cmd:)} {cmd:slanted(}{it:stringlist}{cmd:)} {cmd:smallcaps(}{it:stringlist}{cmd:)}
+{p 12 14 2} {cmd:nofix} {cmd:noendash} {cmd:bold(}{it:stringlist}{cmd:)} {cmd:italics(}{it:stringlist}{cmd:)} 
+{cmd:underline(}{it:stringlist}{cmd:)} {cmd:slanted(}{it:stringlist}{cmd:)} {cmd:smallcaps(}{it:stringlist}{cmd:)}
 {cmd:sansserif(}{it:stringlist}{cmd:)} {cmd:monospace(}{it:stringlist}{cmd:)} {cmd:emphasis(}{it:stringlist}{cmd:)}
 
 
@@ -147,12 +148,6 @@ The default is "\addlinespace[\belowrulesep]".
 
 
 {p 4 8 2}
-{cmd:nofix} instructs {cmd:texsave} to write out all data, titles and footnotes exactly as they appear in Stata. 
-The following non-alphanumeric characters have special meaning in LaTeX: _ % # $ & ~  ^ \ { }.
-By default, {cmd:texsave} adds a backslash (\) in front of these characters in order to prevent LaTeX compile errors.
-
-
-{p 4 8 2}
 {cmd:preamble(}{it:stringlist}{cmd:)} specifies a list of lines of LaTeX code to appear before the "\begin{document}" code in the output.  Each line of code should be surrounded by quotation marks (see example 4 below).
 
 
@@ -185,7 +180,11 @@ The resulting output will not compile into a table.
 
 
 {p 4 8 2}
-{it:format_options}: 
+{it:format_options}:
+
+{p 12 14 2}
+{cmd:nofix} instructs {cmd:texsave} not to add a backslash ("\") in front of the following non-alphanumeric characters: _ % # $ & ~  ^ \ { }.
+Adding the backslash is often quired in order to avoid LaTeX compilation errors.
 
 {p 12 14 2}
 {cmd:noendash} specifies that negative signs ("-") not be converted to en dashes ("--") in the dataset.
