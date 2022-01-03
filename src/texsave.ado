@@ -1,5 +1,5 @@
-*! texsave 1.5.1 8nov2021 by Julian Reif 
-* 1.5.1: added dataonly and valuelabels options
+*! texsave 1.5.1 3jan2022 by Julian Reif 
+* 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
@@ -267,7 +267,7 @@ program define texsave, nclass
 	*  - At the end of the texsave program, drop the tempvars and rename the original vars back to their original names
 	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'"!="" {
 		
-		tempvar index_neg isreal
+		tempvar match str1 str2 isreal
 		local renamed = "yes"
 		
 		* Variables - create new temporary ones that have bad chars stripped out of them and are formatted as specified by user
@@ -296,13 +296,28 @@ program define texsave, nclass
 				}
 				
 				* Reformat negative signs from "-" to "--" (en-dash), unless decimalalign option is specified
-				* Only reformat negative signs if they are followed by a number and not preceded by an alphabetic character or negative sign
-				if "`endash'"=="" & "`decimalalign'"=="" {
-				    qui gen `index_neg' = strpos(`v',"-")
-					qui replace `v' = subinstr(`v',"-","--",1) if real(substr(`v',`index_neg'+1,1))!=. & regexm(substr(`v',`index_neg'-1,1),"[A-Za-z\-]")!=1
-					drop `index_neg'
+				* Only reformat negative signs if they are followed by a number and not preceded by an alphabetic character or negative sign. Do this up to 10 times.
+				qui if "`endash'"=="" & "`decimalalign'"=="" {
+
+					gen `match' = regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
+					summ `match', meanonly
+					local ismatch = r(max)
+					local counter = 1
+					
+					while `ismatch'==1 & `counter'<10 {
+						gen `str1' = regexs(0) if regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
+						gen `str2' = subinstr(`str1',"-","--",1)
+						replace `v' = subinstr(`v',`str1',`str2',1)
+	
+						drop `match' `str1' `str2'
+						gen `match' = regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
+						summ `match', meanonly
+						local ismatch = r(max)						
+						local `counter' = `counter'+1
+					}
+					cap drop `match'
 				}
-				
+			
 				* Formatting options
 				local tex_code "\textbf{ \textit{ \underline{ \textsl{ \textsc{ \textsf{ \texttt{ \emph{"
 				local run_no = 1

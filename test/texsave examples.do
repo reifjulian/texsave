@@ -123,7 +123,15 @@ version 10.1
 * 13. New valuelabels option 
    sysuse auto.dta, clear
    format trunk %3.1fc
-   texsave make mpg trunk foreign if price > 8000 using "example13.tex", valuelabels replace   
+   texsave make mpg trunk foreign if price > 8000 using "example13.tex", valuelabels replace
+   
+* 14. Endash testing
+	sysuse auto, clear
+	keep in 1/5
+	replace make = "-32 (-4 to -5)" in 1
+	replace make = "-32 (---4 to -----5)" in 2
+	replace make = "-32 (x-5 to x-y)" in 3
+	texsave make mpg trunk using "example14.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) replace   
   	
 ***	
 * Decimalalign examples
