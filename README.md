@@ -1,6 +1,6 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.5 2nov2020`
+- Current version: `1.5.1 3jan2022`
 - Jump to:  [`overview`](#overview) [`installation`](#Installation) [`update history`](#update-history)  [`author`](#author)
 
 -----------
@@ -29,6 +29,11 @@ After installing, type `help texsave` to learn the syntax.
 
 
 ## Update History:
+
+
+* **January 3, 2022**
+  - Added `dataonly` option, which outputs only content of the table (no variable names, footnotes, etc.)
+  - Updated `endash` option to work with multiple negative values
 
 * **November 2, 2020**
   - Added support for aligning numeric values at the decimal point using the `siunitx` package

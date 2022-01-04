@@ -1,5 +1,5 @@
-*! texsave 1.5 2nov2020 by Julian Reif 
-* 1.5: added decimalalign option
+*! texsave 1.5.1 3jan2022 by Julian Reif 
+* 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
 * 1.4.4: added headersep() option
@@ -23,7 +23,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
 	* Check if appendfile is installed
 	cap appendfile
@@ -38,6 +38,8 @@ program define texsave, nclass
 		exit 198
 	}
 
+	* By default, value labels are not written out
+	if "`valuelabels'"=="" local nolabel nolabel
 	
 	* Error check hlines
 	if "`hlines'"!="" {
@@ -259,21 +261,30 @@ program define texsave, nclass
 		}
 	}
 	
-	* Dataset corrections
+	* User-specified options that alter the dataset
+	*  - Temporarily rename original variables
+	*  - Create new tempvar that has the modified contents (eg, braces removed)
+	*  - At the end of the texsave program, drop the tempvars and rename the original vars back to their original names
 	if "`fix'"=="" | "`endash'"=="" | `"`bold'`italics'`underline'`slanted'`smallcaps'`sansserif'`monospace'`emphasis'"'!="" | "`decimalalign'"!="" {
 		
-		tempvar index_neg isreal
+		tempvar match str1 str2 isreal
 		local renamed = "yes"
 		
 		* Variables - create new temporary ones that have bad chars stripped out of them and are formatted as specified by user
-		foreach v of local varlist {
+		qui foreach v of local varlist {
 			tempname `v'temp
-			qui ren `v' ``v'temp'
-			qui gen `v' = ``v'temp'
+			ren `v' ``v'temp'
+			gen `v' = ``v'temp'
 			
+			* Retain display formatting and value labels
+			local varformat : format ``v'temp'
+			format `v' `varformat'			
+			local vallabel : value label ``v'temp'
+			cap label values `v' `vallabel'
+
 			capture confirm string var `v'
 			if _rc==0 {
-								
+
 				* Fix problematic symbols 
 				if "`fix'"=="" {
 					foreach symbol in _ % # $ & ~ {
@@ -285,13 +296,28 @@ program define texsave, nclass
 				}
 				
 				* Reformat negative signs from "-" to "--" (en-dash), unless decimalalign option is specified
-				* Only reformat negative signs if they are followed by a number and not preceded by an alphabetic character or negative sign
-				if "`endash'"=="" & "`decimalalign'"=="" {
-				    qui gen `index_neg' = strpos(`v',"-")
-					qui replace `v' = subinstr(`v',"-","--",1) if real(substr(`v',`index_neg'+1,1))!=. & regexm(substr(`v',`index_neg'-1,1),"[A-Za-z\-]")!=1
-					drop `index_neg'
+				* Only reformat negative signs if they are followed by a number and not preceded by an alphabetic character or negative sign. Do this up to 10 times.
+				qui if "`endash'"=="" & "`decimalalign'"=="" {
+
+					gen `match' = regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
+					summ `match', meanonly
+					local ismatch = r(max)
+					local counter = 1
+					
+					while `ismatch'==1 & `counter'<10 {
+						gen `str1' = regexs(0) if regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
+						gen `str2' = subinstr(`str1',"-","--",1)
+						replace `v' = subinstr(`v',`str1',`str2',1)
+	
+						drop `match' `str1' `str2'
+						gen `match' = regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
+						summ `match', meanonly
+						local ismatch = r(max)						
+						local `counter' = `counter'+1
+					}
+					cap drop `match'
 				}
-				
+			
 				* Formatting options
 				local tex_code "\textbf{ \textit{ \underline{ \textsl{ \textsc{ \textsf{ \texttt{ \emph{"
 				local run_no = 1
@@ -314,7 +340,7 @@ program define texsave, nclass
 					replace `v' = "{" + `v' + "}" if mi(`isreal')
 					drop `isreal'
 				}
-			}			
+			}
 		}
 	}
 
@@ -405,7 +431,7 @@ program define texsave, nclass
 			
 			* First group
 			if `grp'==1 {
-				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',1,``grp'') using "`data1'", replace delimiter(`delimiter') nonames noquote
+				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',1,``grp'') using "`data1'", replace delimiter(`delimiter') nonames noquote `nolabel'
 			}
 			
 			* Rest of groups
@@ -425,13 +451,13 @@ program define texsave, nclass
 				}
 				
 				* Append next group
-				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',`g1',`g2') using "`tmp'", replace delimiter(`delimiter') nonames noquote
+				qui outsheet `varlist' if `touse'==1 & inrange(`rownum',`g1',`g2') using "`tmp'", replace delimiter(`delimiter') nonames noquote `nolabel'
 				appendfile "`tmp'" "`data1'"
 			}
 		}		
 	}
 	
-	else qui outsheet `varlist' `if' `in' using "`data1'", replace delimiter(`delimiter') nonames noquote
+	else qui outsheet `varlist' `if' `in' using "`data1'", replace delimiter(`delimiter') nonames noquote `nolabel'
 	filefilter "`data1'" "`data2'", from("`eol_char'") to(" \BStabularnewline`rowsep'`eol_char'") replace
 
 	*********
@@ -481,8 +507,12 @@ program define texsave, nclass
 	********
 	** Append table start ("using"), data, and table end together
 	********
-	appendfile "`data2'" "`using'"
-	appendfile "`end_file'" "`using'"
+	
+	if "`dataonly'"!="" copy "`data2'" "`using'", public replace
+	else {
+		appendfile "`data2'" "`using'"
+		appendfile "`end_file'" "`using'"
+	}
 	
 	* Return vars to original state
 	if "`renamed'"=="yes" {

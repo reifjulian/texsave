@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[margin=1in]{geometry}
+\begin{document}
+
+\begin{table}[tbp] \centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\caption{MPG and trunk space}
+\begin{tabularx}{\linewidth}{lCC}
+
+\toprule
+{make}&{mpg}&{trunk} \tabularnewline
+\midrule \addlinespace[\belowrulesep]
+--32 (--4 to --5)&22&11 \tabularnewline
+--32 (---4 to -----5)&17&11 \tabularnewline
+--32 (x-5 to x-y)&22&12 \tabularnewline
+Buick Century&20&16 \tabularnewline
+Buick Electra&15&20 \tabularnewline
+\bottomrule \addlinespace[\belowrulesep]
+
+\end{tabularx}
+\begin{flushleft}
+\footnotesize Variable trunk measured in cubic feet
+\end{flushleft}
+\end{table}
+\end{document}
