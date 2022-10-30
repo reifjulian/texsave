@@ -199,7 +199,7 @@ For example, {cmd:underline(}{it:"word1" "word2"}{cmd:)} underlines all data val
 {p 4 8 2} It is sometimes difficult to make {cmd:texsave} output a literal "$" because this can be interpreted by Stata as a global macro.
 For example, "$R^2$" will be incorrectly outputted as "^2$".  You can avoid this problem by using the alternative LaTeX syntax "\(R^2\)".
 
-{p 4 8 2} If your dataset includes LaTeX code, you will typically want to specify the {cmd:nofix} option.
+{p 4 8 2} If your dataset includes LaTeX code, you will probably want to instruct {cmd:texsave} not to modify it by specifying the {cmd:nofix} option.
 
 {p 4 8 2} {cmd:texsave} performs some basic error checking. For example, it issues an error if you specify horizontal lines at row values that do not exist. 
 However, it does not check that tables with lots of alignment specifications etc. will compile correctly. 
