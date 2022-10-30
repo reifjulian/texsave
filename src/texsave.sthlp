@@ -184,7 +184,7 @@ The resulting output will not compile into a table.
 
 {p 12 14 2}
 {cmd:nofix} instructs {cmd:texsave} not to add a backslash ("\") in front of the following non-alphanumeric characters: _ % # $ & ~  ^ \ { }.
-Adding the backslash is often quired in order to avoid LaTeX compilation errors.
+Adding the backslash is often required in order to avoid LaTeX compilation errors.
 
 {p 12 14 2}
 {cmd:noendash} specifies that negative signs ("-") not be converted to en dashes ("--") in the dataset.
@@ -198,6 +198,8 @@ For example, {cmd:underline(}{it:"word1" "word2"}{cmd:)} underlines all data val
 
 {p 4 8 2} It is sometimes difficult to make {cmd:texsave} output a literal "$" because this can be interpreted by Stata as a global macro.
 For example, "$R^2$" will be incorrectly outputted as "^2$".  You can avoid this problem by using the alternative LaTeX syntax "\(R^2\)".
+
+{p 4 8 2} If your dataset includes LaTeX code, you will typically want to specify the {cmd:nofix} option.
 
 {p 4 8 2} {cmd:texsave} performs some basic error checking. For example, it issues an error if you specify horizontal lines at row values that do not exist. 
 However, it does not check that tables with lots of alignment specifications etc. will compile correctly. 
