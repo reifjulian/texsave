@@ -467,11 +467,13 @@ program define texsave, nclass
 	
 	* SW has a bug with \bottomrule that requires you to output an extra \\
 	file write `fh' `"\bottomrule `footnotespace'"' _n(2)	
-
-	* Footnote style #1 only done if user specifies width option: this aligns with columns and needs to go before \end{tabularx}
-	if `"`footnote'"'!="" & `"`footnotewidth'"'!="" file write `fh' `"\multicolumn{`num_vars'}{`footnotewidth'}{\begin{`footnotesize'} `footnote'\end{`footnotesize'}}"' _n	
 	
-	file write `fh' "\end{tabularx}" _n
+	file write `fh'  "\end{tabularx}" _n
+	
+	* Footnote style #1 only done if user specifies width option: this aligns with columns.
+	
+
+	if `"`footnote'"'!="" & `"`footnotewidth'"'!="" file write `fh' `"\parbox{`footnotewidth'}{\\`footnotesize' `footnote'}"' _n	
 
 	* Footnote style #2: just a simple flush left after the end of the table
 	if `"`footnote'"'!="" & `"`footnotewidth'"'=="" {
