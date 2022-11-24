@@ -76,7 +76,8 @@ version 10.1
 * 7. Landscape option
 	
 	sysuse auto, clear
-	texsave using "example7.tex" if price>5000, title("Auto dataset") landscape geometry(left=.2in,right=.2in) size(scriptsize) replace
+	local fn : di _dup(40) "Duplicated string "
+	texsave using "example7.tex" if price>5000, title("Auto dataset") landscape geometry(left=.2in,right=.2in) size(scriptsize) footnote("Notes: `fn'") replace
 	
 * 8. Rowsep option
 	sysuse auto, clear
