@@ -8,7 +8,7 @@
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 
 \caption{title\_\%\#\&}
-\begin{tabularx}{\linewidth}{lCC}
+\begin{tabularx}{\linewidth}{@{}lCC@{}}
 
 \toprule
 {make}&{number}&{string} \tabularnewline
@@ -45,8 +45,6 @@ Merc. Bobcat&--3& \tabularnewline
 \bottomrule \addlinespace[\belowrulesep]
 
 \end{tabularx}
-\begin{flushleft}
-\footnotesize fn\_\%\#\&
-\end{flushleft}
+\parbox{\linewidth}{\footnotesize fn\_\%\#\&}
 \end{table}
 \end{document}

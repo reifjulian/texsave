@@ -86,7 +86,7 @@ version 10.1
 	sysuse auto, clear
 	local fn "This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote."
 	texsave make mpg trunk weight length displacement turn using "example9.1.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'")
-	texsave make mpg trunk weight length displacement turn using "example9.2.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'", width("p{16cm}"))
+	texsave make mpg trunk weight length displacement turn using "example9.2.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'", width("16cm"))
 
 * 10. Fix option
 	sysuse auto, clear

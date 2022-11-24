@@ -9,7 +9,7 @@
 
 \caption{Auto dataset}
 {\scriptsize
-\begin{tabularx}{\linewidth}{lCCCCCC}
+\begin{tabularx}{\linewidth}{@{}lCCCCCC@{}}
 
 \toprule
 {make}&{mpg}&{trunk}&{weight}&{length}&{displacement}&{turn} \tabularnewline
@@ -54,9 +54,7 @@ Volvo 260&17&14&3170&193&163&37 \tabularnewline
 \bottomrule \addlinespace[\belowrulesep]
 
 \end{tabularx}
-\begin{flushleft}
-\footnotesize This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote.
-\end{flushleft}
+\parbox{\linewidth}{\footnotesize This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote.}
 }
 \end{table}
 \end{document}

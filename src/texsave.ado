@@ -1,4 +1,5 @@
-*! texsave 1.5.1 3jan2022 by Julian Reif 
+*! texsave 1.6.0 23nov2022 by Julian Reif 
+* 1.6.0: added "@{}" to header alignment. Changed footnote to use \parbox.
 * 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
 * 1.4.5: added new endash option (enabled by default)
@@ -25,6 +26,11 @@ program define texsave, nclass
 
 	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) headerlines(string asis) headlines(string asis) preamble(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
+
+	********************************************************************************************
+	*****  Parsing and QC'ing of command options
+	********************************************************************************************
+	
 	* Check if appendfile is installed
 	cap appendfile
 	if _rc==199 {
@@ -142,9 +148,12 @@ program define texsave, nclass
 	* http://mirror.utexas.edu/ctan/macros/latex/contrib/booktabs/booktabs.pdf
 	if `"`footnote'"'!=""                          local footnotespace  "\addlinespace[\belowrulesep]"
 	if `"`footnote'"'!="" & `"`addlinespace'"'!="" local footnotespace `"\addlinespace[`addlinespace']"'
+	
+	* Footnote width option. Default is \linewidth (consistent with table -width- option)
+	if `"`footnote'"'!="" & `"`footnotewidth'"'=="" local footnotewidth "\linewidth"
 		
 	* Error check the size and footnotesize options. Set default for footnotesize.
-	if "`footnotesize'"=="" local footnotesize "footnotesize"
+	if `"`footnotesize'"'=="" local footnotesize "footnotesize"
 
 	foreach opt in "size" "footnotesize" {
 		if "``opt''"!="" {
@@ -186,11 +195,12 @@ program define texsave, nclass
 
 	* Default is to have first column left-justified and the rest centered.
 	if `"`align'"'=="" {
-		local align "l"
+		local align "@{}l"
 		forval x = 2/`num_vars' {
 			if "`decimalalign'"!="" local align "`align'S"
 			else local align "`align'C"
 		}
+		local align "`align'@{}"
 	}
 
 
@@ -237,9 +247,9 @@ program define texsave, nclass
 		local header_colnames `"`header_colnames' \tabularnewline"'
 	}
 
-	*****
-	* Correct chars that cause problems in LaTeX; add bold, italics, underline etc. tags as necessary
-	*****
+	***
+	* -fix- option: correct chars in header, footnote, and title that cause problems in LaTeX; add bold, italics, underline etc. tags as necessary
+	***
 	
 	* Header, title, and footer corrections
 	if "`fix'"=="" {		
@@ -343,10 +353,13 @@ program define texsave, nclass
 			}
 		}
 	}
-
-	******
-	** Open the file
-	******
+	
+	
+	********************************************************************************************
+	*****  Write out table header to the -using- file
+	********************************************************************************************
+	
+	* Open the file
 	tempfile data1 data2 end_file
 	tempname fh
 	qui file open `fh' using "`using'", write `replace'
@@ -410,10 +423,12 @@ program define texsave, nclass
 	if `"`header_headerlines'`autonumber'`header_colnames'"'!="" qui file write `fh' "`horiz_line'`headersep'" _n
 	file close `fh'
 	
-	*********
-	** Data
-	*********
-	* If hlines() option is specified, need to split up dataset and insert hlines
+	
+	********************************************************************************************
+	*****  Write out dataset (body of table) to "data1", then convert to "data2"
+	********************************************************************************************	
+
+	* If hlines() option is specified, need to split up dataset and insert hlines. Write out using -file write- commands.
 	if "`hlines'"!="" {
 		tempvar dummy rownum touse
 		tempfile tmp
@@ -457,30 +472,25 @@ program define texsave, nclass
 		}		
 	}
 	
+	* Else just outsheet the dataset
 	else qui outsheet `varlist' `if' `in' using "`data1'", replace delimiter(`delimiter') nonames noquote `nolabel'
+	
+	
 	filefilter "`data1'" "`data2'", from("`eol_char'") to(" \BStabularnewline`rowsep'`eol_char'") replace
 
-	*********
-	** Table end
-	*********
+	********************************************************************************************
+	*****  Write out table bottom to "end_file"
+	********************************************************************************************	
+	
+	* Close out tabularx (with footnote spacer, if footnote present)
 	qui file open `fh' using "`end_file'", write `replace'	
-	
-	* SW has a bug with \bottomrule that requires you to output an extra \\
 	file write `fh' `"\bottomrule `footnotespace'"' _n(2)	
-
-	* Footnote style #1 only done if user specifies width option: this aligns with columns and needs to go before \end{tabularx}
-	if `"`footnote'"'!="" & `"`footnotewidth'"'!="" file write `fh' `"\multicolumn{`num_vars'}{`footnotewidth'}{\begin{`footnotesize'} `footnote'\end{`footnotesize'}}"' _n	
+	file write `fh'  "\end{tabularx}" _n
 	
-	file write `fh' "\end{tabularx}" _n
-
-	* Footnote style #2: just a simple flush left after the end of the table
-	if `"`footnote'"'!="" & `"`footnotewidth'"'=="" {
-		file write `fh' `"\begin{flushleft}"' _n
-		file write `fh' `"\\`footnotesize' `footnote'"' _n
-		file write `fh' `"\end{flushleft}"' _n
-	}
+	* Table footnote, if specified
+	if `"`footnote'"'!="" file write `fh' `"\parbox{`footnotewidth'}{\\`footnotesize' `footnote'}"' _n
 	
-	
+	* Close out table
 	if `"`size'"'!="" file write `fh' "}" _n
 		if "`sw'"!="" file write `fh' "%TCIMACRO{\TeXButton{E}{\end{table}}}%" _n
 		if "`sw'"!="" file write `fh' "%BeginExpansion" _n
@@ -501,12 +511,12 @@ program define texsave, nclass
 	* End the tex document
 	if "`frag'"=="" file write `fh' "\end{document}" _n
 	
-	* Close the file
+	* Close the bottom file
 	file close `fh'
 	
-	********
-	** Append table start ("using"), data, and table end together
-	********
+	********************************************************************************************
+	*****  Append table start ("using"), data2, and end_file together
+	********************************************************************************************	
 	
 	if "`dataonly'"!="" copy "`data2'" "`using'", public replace
 	else {
