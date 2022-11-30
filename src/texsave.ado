@@ -150,7 +150,8 @@ program define texsave, nclass
 	if `"`footnote'"'!="" & `"`addlinespace'"'!="" local footnotespace `"\addlinespace[`addlinespace']"'
 	
 	* Footnote width option. Default is \linewidth (consistent with table -width- option)
-	if `"`footnote'"'!="" & `"`footnotewidth'"'=="" local footnotewidth "\linewidth"
+	if `"`footnotewidth'"'=="" & `"`width'"'!="" local footnotewidth `"`width'"'
+	else if `"`footnotewidth'"'==""              local footnotewidth "\linewidth"
 		
 	* Error check the size and footnotesize options. Set default for footnotesize.
 	if `"`footnotesize'"'=="" local footnotesize "footnotesize"
