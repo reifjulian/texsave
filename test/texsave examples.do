@@ -132,7 +132,11 @@ version 10.1
 	replace make = "-32 (-4 to -5)" in 1
 	replace make = "-32 (---4 to -----5)" in 2
 	replace make = "-32 (x-5 to x-y)" in 3
-	texsave make mpg trunk using "example14.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) replace   
+	texsave make mpg trunk using "example14.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) replace
+	
+* 15. Footnote testing
+	sysuse auto, clear
+	texsave make if price > 8000 using "example15.tex", title(MPG and trunk space) width(0.4\linewidth) footnote(Variable trunk measured in cubic feet) replace
   	
 ***	
 * Decimalalign examples

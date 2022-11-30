@@ -489,7 +489,7 @@ program define texsave, nclass
 	file write `fh'  "\end{tabularx}" _n
 	
 	* Table footnote, if specified
-	if `"`footnote'"'!="" file write `fh' `"\parbox{`footnotewidth'}{\\`footnotesize' `footnote'}"' _n
+	if `"`footnote'"'!="" file write `fh' `"\\ \parbox{`footnotewidth'}{\\`footnotesize' `footnote'}"' _n
 	
 	* Close out table
 	if `"`size'"'!="" file write `fh' "}" _n
