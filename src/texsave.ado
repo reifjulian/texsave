@@ -1,4 +1,4 @@
-*! texsave 1.6.0 23nov2022 by Julian Reif 
+*! texsave 1.6.0 30nov2022 by Julian Reif 
 * 1.6.0: added "@{}" to header alignment. Changed footnote to use \parbox.
 * 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
 * 1.4.6: added label option (replaces marker function, which is now deprecated)

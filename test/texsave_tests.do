@@ -160,7 +160,7 @@ version 10.1
 
 
 use results.dta, clear
-cf _all using "standards/results.dta"
+cf _all using "results.compare.dta"
 	
 ** EOF
 
