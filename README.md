@@ -1,6 +1,6 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.5.1 3jan2022`
+- Current version: `1.6.0 30nov2022`
 - Jump to:  [`overview`](#overview) [`installation`](#Installation) [`update history`](#update-history)  [`author`](#author)
 
 -----------
@@ -8,7 +8,7 @@
 
 ## Overview: 
 
-`texsave` is a Stata command that outputs the dataset currently in memory to a file in LaTeX format. It uses the LaTeX packages *booktabs*, *tabularx*, and *geometry* to produce publication-quality tables. The syntax is described in the Stata help file included in this package.
+`texsave` is a Stata command that outputs the dataset currently in memory to a file in LaTeX format. It uses the `booktabs`, `tabularx`, and `geometry` LaTeX packages to produce publication-quality tables. The syntax is described in the Stata help file included in this package.
 
 Julian Reif's [Stata Coding Guide](https://reifjulian.github.io/guide/#automating_tables) provides a tutorial.
 
@@ -30,6 +30,9 @@ After installing, type `help texsave` to learn the syntax.
 
 ## Update History:
 
+* **November 30, 2022**
+  - Added `@{}` to header alignment
+  - Changed footnote to use `\parbox`
 
 * **January 3, 2022**
   - Added `dataonly` option, which outputs only content of the table (no variable names, footnotes, etc.)
