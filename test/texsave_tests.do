@@ -76,7 +76,8 @@ version 10.1
 * 7. Landscape option
 	
 	sysuse auto, clear
-	texsave using "example7.tex" if price>5000, title("Auto dataset") landscape geometry(left=.2in,right=.2in) size(scriptsize) replace
+	local fn : di _dup(40) "Duplicated string "
+	texsave using "example7.tex" if price>5000, title("Auto dataset") landscape geometry(left=.2in,right=.2in) size(scriptsize) footnote("Notes: `fn'") replace
 	
 * 8. Rowsep option
 	sysuse auto, clear
@@ -86,7 +87,7 @@ version 10.1
 	sysuse auto, clear
 	local fn "This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote."
 	texsave make mpg trunk weight length displacement turn using "example9.1.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'")
-	texsave make mpg trunk weight length displacement turn using "example9.2.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'", width("p{16cm}"))
+	texsave make mpg trunk weight length displacement turn using "example9.2.tex" if price>5000, title("Auto dataset") size(scriptsize) replace footnote("`fn'", width("16cm"))
 
 * 10. Fix option
 	sysuse auto, clear
@@ -131,7 +132,11 @@ version 10.1
 	replace make = "-32 (-4 to -5)" in 1
 	replace make = "-32 (---4 to -----5)" in 2
 	replace make = "-32 (x-5 to x-y)" in 3
-	texsave make mpg trunk using "example14.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) replace   
+	texsave make mpg trunk using "example14.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) replace
+	
+* 15. Footnote testing
+	sysuse auto, clear
+	texsave make if price > 8000 using "example15.tex", title(MPG and trunk space) width(0.4\linewidth) footnote(Variable trunk measured in cubic feet) replace
   	
 ***	
 * Decimalalign examples
@@ -155,7 +160,7 @@ version 10.1
 
 
 use results.dta, clear
-cf _all using "standards/results.dta"
+cf _all using "results.compare.dta"
 	
 ** EOF
 

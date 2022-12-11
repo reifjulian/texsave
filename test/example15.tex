@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[margin=1in]{geometry}
+\begin{document}
+
+\begin{table}[tbp] \centering
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\caption{MPG and trunk space}
+\begin{tabularx}{0.4\linewidth}{@{}l@{}}
+
+\toprule
+{make} \tabularnewline
+\midrule \addlinespace[\belowrulesep]
+Buick Riviera \tabularnewline
+Cad. Deville \tabularnewline
+Cad. Eldorado \tabularnewline
+Cad. Seville \tabularnewline
+Linc. Continental \tabularnewline
+Linc. Mark V \tabularnewline
+Linc. Versailles \tabularnewline
+Olds 98 \tabularnewline
+Olds Toronado \tabularnewline
+Audi 5000 \tabularnewline
+BMW 320i \tabularnewline
+Datsun 810 \tabularnewline
+Peugeot 604 \tabularnewline
+Volvo 260 \tabularnewline
+\bottomrule \addlinespace[\belowrulesep]
+
+\end{tabularx}
+\\ \parbox{0.4\linewidth}{\footnotesize Variable trunk measured in cubic feet}
+\end{table}
+\end{document}

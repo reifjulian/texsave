@@ -9,7 +9,7 @@
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 
 \caption{MPG and trunk space}
-\begin{tabularx}{\linewidth}{lSS}
+\begin{tabularx}{\linewidth}{@{}lSS@{}}
 
 \toprule
 {mpg}&{trunk}&{price} \tabularnewline
@@ -37,8 +37,6 @@
 \bottomrule \addlinespace[\belowrulesep]
 
 \end{tabularx}
-\begin{flushleft}
-\footnotesize Variable trunk measured in cubic feet
-\end{flushleft}
+\\ \parbox{\linewidth}{\footnotesize Variable trunk measured in cubic feet}
 \end{table}
 \end{document}

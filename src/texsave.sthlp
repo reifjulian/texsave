@@ -104,9 +104,9 @@ values are interpreted as the distance from the end of the table.
 {p 4 8 2}
 {cmd:footnote(}{it:string} [, {cmd:size(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)}] {cmd:addlinespace(}{it:string}{cmd:)}{cmd:)} writes out {it:string}
 in a left-justified footnote at the bottom of the table.  The suboptions allow you to set the size and width of the 
-footnote, using the syntax described by the {cmd:size(}{it:string}{cmd:)} and {cmd:width(}{it:string}{cmd:)} options. The {cmd:addlinespace(}{it:string}{cmd:)}
+footnote, using the same syntax described above by the {cmd:size(}{it:string}{cmd:)} and {cmd:width(}{it:string}{cmd:)} options. The {cmd:addlinespace(}{it:string}{cmd:)}
 suboption writes out "\addlinespace[{it:string}]" just prior the footnote, allowing you to control the 
-amount of spacing between the table and the footnote. (See {cmd:rowsep()} for examples of valid units.}
+amount of spacing between the table and the footnote. (See {cmd:rowsep()} for examples of valid units.)
 The default is "\addlinespace[\belowrulesep]".
 
 
@@ -228,7 +228,7 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 {space 9}{it:\begin{table}[tbp] \centering}
 {space 9}{it:\newcolumntype{C}{>{\centering\arraybackslash}X}}
 {space 9}{cmd:title(}{it:string}{cmd:)}
-{space 9}\begin{tabularx}{\linewidth}{lC...C}
+{space 9}\begin{tabularx}{\linewidth}{@{}lC...C@{}}
 {space 9}{it:\toprule}
 {space 9}{cmd:autonumber}
 {space 9}{cmd:headerlines(}{it:stringlist}{cmd:)}
@@ -237,9 +237,9 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 {space 9}{it:\midrule\addlinespace[}{cmd:headersep(}{it:string}{cmd:)}{it:]}
 {space 9}[data]
 
-{space 9}{it:\bottomrule}
+{space 9}{it:\bottomrule} \addlinespace[\belowrulesep]
 {space 9}{it:\end{tabularx}}
-{space 9}{cmd:footnote(}{it:string}{cmd:)}
+{space 9}{it:\parbox{\linewidth}}{{it:\footnotesize} {cmd:footnote(}{it:string}{cmd:)}}
 {space 9}{it:\end{table}}
 
 {space 9}{cmd:footlines(}{it:stringlist}{cmd:)}

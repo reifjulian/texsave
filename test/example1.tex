@@ -8,7 +8,7 @@
 \newcolumntype{C}{>{\centering\arraybackslash}X}
 
 \caption{MPG and trunk space}
-\begin{tabularx}{\linewidth}{lCC}
+\begin{tabularx}{\linewidth}{@{}lCC@{}}
 
 \toprule
 {make}&{mpg}&{trunk} \tabularnewline
@@ -30,8 +30,6 @@ Volvo 260&17&14 \tabularnewline
 \bottomrule \addlinespace[\belowrulesep]
 
 \end{tabularx}
-\begin{flushleft}
-\footnotesize Variable trunk measured in cubic feet
-\end{flushleft}
+\\ \parbox{\linewidth}{\footnotesize Variable trunk measured in cubic feet}
 \end{table}
 \end{document}
