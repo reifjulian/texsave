@@ -79,9 +79,17 @@ version 10.1
 	local fn : di _dup(40) "Duplicated string "
 	texsave using "example7.tex" if price>5000, title("Auto dataset") landscape geometry(left=.2in,right=.2in) size(scriptsize) footnote("Notes: `fn'") replace
 	
-* 8. Rowsep option
+* 8. Rowspacing  options
+
+    * rowsep
 	sysuse auto, clear
-	texsave using "example8.tex" if price>5000, title("Auto dataset") rowsep(0.1cm) size(scriptsize) replace
+	texsave using "example8.1.tex" if price>5000, title("Auto dataset") rowsep(0.1cm) size(scriptsize) replace
+	
+	* rowstretch and rowheight
+	texsave using "example8.2.tex" if price>5000, title("Auto dataset") rowstretch(1.1) rowheight(2.2pt) size(scriptsize) replace
+	
+	cap texsave using "example8.2.tex" if price>5000, title("Auto dataset") rowstretch(string) rowheight(2.2pt) size(scriptsize) replace
+	assert _rc==121
 	
 * 9. Footnote align option
 	sysuse auto, clear
