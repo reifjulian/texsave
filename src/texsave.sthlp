@@ -8,22 +8,23 @@
 
 {title:Syntax}
 
-{p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)}
-{cmd:label(}{it:string}{cmd:)} {cmd:autonumber} {cmd:hlines(}{help numlist:numlist}{cmd:)} {cmd:footnote(}{it:footnote_options}{cmd:)}
-{cmdab:varlab:els}  {cmdab:land:scape}   {cmd:replace} 
+{p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:footnote(}{it:footnote_suboptions}{cmd:)} 
+ {cmd:autonumber} {cmdab:varlab:els} {cmd:hlines(}{help numlist:numlist}{cmd:)} 
+ {cmd:label(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)} {cmdab:land:scape}   {cmd:replace} 
 {it:spacing_options} {it:code_options} {it:format_options} {it:other_options}]
 
 {p 4 4 2}where
 
-{p 8 14 2}{it:footnote_options} are
+{p 8 14 2}{it:footnote_suboptions} are
 
 {p 12 14 2}{cmd:footnote(}{it:string} [, {cmd:size(}{it:string}{cmd:)} {cmd:addlinespace(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)}]{cmd:)}
 
 {p 8 14 2}{it:spacing_options} are
 
-{p 12 14 2} {cmdab:geo:metry(}{it:string}{cmd:)} {cmd:rowsep(}{it:string}{cmd:)} 
-{cmd:headersep(}{it:string}{cmd:)} 
-{cmd:width(}{it:string}{cmd:)} {cmd:rowstretch(}{it:#}{cmd:)} {cmd:rowheight(}{it:string}{cmd:)}
+{p 12 14 2} {cmdab:geo:metry(}{it:string}{cmd:)} 
+{cmd:headersep(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)} 
+{cmd:rowsep(}{it:string}{cmd:)}  {cmd:rowstretch(}{it:#}{cmd:)} {cmd:rowheight(}{it:string}{cmd:)} 
+{cmd:colwidth(}{it:string}{cmd:)}
 
 {p 8 14 2}{it:code_options} are
 
@@ -64,19 +65,13 @@ suboption writes out "\addlinespace[{it:string}]" just prior the footnote, allow
 amount of spacing between the table and the footnote. (See {cmd:rowsep()} for examples of valid units.)
 The default is "\addlinespace[\belowrulesep]".
 
-
-{p 4 8 2}
-{cmd:varlabels} specifies that variable labels be written in the table header instead of variable names.
-
-
-{p 4 8 2}
-{cmd:size(}{it:string}{cmd:)} specifies the size of your table.  Valid size options are tiny, scriptsize, footnotesize, small, normalsize, large, Large, LARGE, huge, and Huge.  
-Alternatively, the user may specify a numeric value between 1 and 10, where 1 corresponds to tiny and 10 corresponds to Huge.
-
-
 {p 4 8 2}
 {cmd:autonumber} writes out "(1)", "(2)"... in the first row of the table header, beginning with column two.  
 This is useful when outputting regression results stored by a command like {help regsave:regsave} (if installed).
+
+
+{p 4 8 2}
+{cmd:varlabels} specifies that variable labels be written in the table header instead of variable names.
 
 
 {p 4 8 2}
@@ -88,12 +83,13 @@ values are interpreted as the distance from the end of the table.
 {cmd:label(}{it:string}{cmd:)} uses LaTeX's {it:\label} option to mark your table with the key {it:string}.
 
 
+{p 4 8 2}
+{cmd:size(}{it:string}{cmd:)} specifies the size of your table.  Valid size options are tiny, scriptsize, footnotesize, small, normalsize, large, Large, LARGE, huge, and Huge.  
+Alternatively, the user may specify a numeric value between 1 and 10, where 1 corresponds to tiny and 10 corresponds to Huge.
 
 
 {p 4 8 2}
 {cmd:landscape} specifies a landscape orientation instead of a portrait orientation. This requires the {it:pdflscape} package.
-
-
 
 
 {p 4 8 2}
@@ -107,10 +103,7 @@ values are interpreted as the distance from the end of the table.
 {cmd:geometry(}{it:string}{cmd:)} specifies the page dimensions using the {it:geometry} package. The default is "margin=1in".
 
 {p 12 14 2}
-{cmd:rowsep(}{it:string}{cmd:)} adds vertical spacing of length {it:string} to the rows via the {it:\addlinespace} command. 
-The length can be expressed in the following units: {it:cm} (centimetres), {it:em} (the width of the letter M in the current font), {it:ex} 
-(the height of the letter x in the current font), {it:in} (inches), {it:pc} (picas), {it:pt} (points) or {it:mm} (millimetres). 
-For example, {cmd:rowsep(}{it:1cm}{cmd:)} adds one centimeter of vertical space between rows.
+{cmd:width(}{it:string}{cmd:)} specifies the width of your table. Lengths can be specified in the same way as for {cmd:rowsep} (see below). The default is {it:\linewidth}.
 
 {p 12 14 2}
 {cmd:headersep(}{it:string}{cmd:)} adds vertical spacing of length {it:string} between the header row and the data rows via the {it:\addlinespace} command.
@@ -118,13 +111,19 @@ It uses the same syntax as {cmd:rowsep(}{it:string}{cmd:)}.
 The default is "\addlinespace[\belowrulesep]".
 
 {p 12 14 2}
-{cmd:width(}{it:string}{cmd:)} specifies the width of your table. Lengths can be specified in the same way as for {cmd:rowsep} (see below). The default is {it:\linewidth}.
+{cmd:rowsep(}{it:string}{cmd:)} adds vertical spacing of length {it:string} to the rows via the {it:\addlinespace} command. 
+The length can be expressed in the following units: {it:cm} (centimetres), {it:em} (the width of the letter M in the current font), {it:ex} 
+(the height of the letter x in the current font), {it:in} (inches), {it:pc} (picas), {it:pt} (points) or {it:mm} (millimetres). 
+For example, {cmd:rowsep(}{it:1cm}{cmd:)} adds one centimeter of vertical space between rows.
 
 {p 12 14 2}
-{cmd:rowstretch(}{it:#}{cmd:)} controls the amount of vertical spacing: "\renewcommand{\arraystretch}{#}". The default value is 1. Larger values increase spacing, smaller values decrease it.
+{cmd:rowstretch(}{it:#}{cmd:)} injects vertical space above and below cell text: "\renewcommand{\arraystretch}{#}". The default value is 1. Values larger than 1 increase spacing, values smaller than 1 decrease spacing.
 
 {p 12 14 2}
-{cmd:rowheight(}{it:string}{cmd:)} allows the user to set the level of vertical spacing: "\setlength\extrarowheight{{it:string}}". Lengths can be specified in the same way as for {cmd:rowsep}.
+{cmd:rowheight(}{it:string}{cmd:)} injects vertical space only above cell text: "\setlength\extrarowheight{{it:string}}". Lengths can be specified in the same way as for {cmd:rowsep}.
+
+{p 12 14 2}
+{cmd:colwidth(}{it:string}{cmd:)} modifies the column width: "\setlength{\tabcolsep}{{it:string}". Lengths can be specified in the same way as for {cmd:rowsep}. See also {cmd:align()}.
 
 
 {p 4 8 2}
@@ -330,6 +329,6 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 
 {p 4 4 2}
 {help regsave:regsave} (if installed),
-{help outreg2:outreg2} (if installed),
+{help sortobs:sortobs} (if installed),
 {help filefilter:filefilter}
 

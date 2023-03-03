@@ -1,5 +1,5 @@
 *! texsave 1.6.1 03mar2023 by Julian Reif 
-* 1.6.1: added rowstretch, rowheight, and tablelines options
+* 1.6.1: added rowstretch, rowheight, colwidth, and tablelines options
 * 1.6.0: added "@{}" to header alignment. Changed footnote to use \parbox.
 * 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
@@ -25,7 +25,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) preamble(string asis) headlines(string asis) tablelines(string asis) headerlines(string asis)  footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowstretch(numlist max=1 missingok) rowheight(string) rowsep(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) preamble(string asis) headlines(string asis) tablelines(string asis) headerlines(string asis)  footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowstretch(numlist max=1 missingok) rowheight(string) rowsep(string) colwidth(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
 
 	********************************************************************************************
@@ -423,6 +423,7 @@ program define texsave, nclass
 	}	
 	if `rowstretch'!=. file write `fh' "\renewcommand{\arraystretch}{`rowstretch'}" _n
 	if `"`rowheight'"'!="" file write `fh' "\setlength\extrarowheight{`rowheight'}" _n
+	if `"`colwidth'"'!="" file write `fh' "\setlength{\tabcolsep}{`colwidth'}" _n
 	file write `fh' "\newcolumntype{C}{>{\centering\arraybackslash}X}" _n(2)
 		if "`sw'"!="" file write `fh' "%EndExpansion" _n
 	if `"`title'"'!="" file write `fh' `"\caption{`title'}"' _n

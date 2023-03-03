@@ -91,6 +91,9 @@ version 10.1
 	cap texsave using "example8.2.tex" if price>5000, title("Auto dataset") rowstretch(string) rowheight(2.2pt) size(scriptsize) replace
 	assert _rc==121
 	
+	* colwidth
+	texsave make-weight using "example8.3.tex" if price>6000, title("Auto dataset") colwidth(20pt) replace
+	
 * 9. Footnote align option
 	sysuse auto, clear
 	local fn "This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote. This is a looooooooooooooooong fooooooooootnote."
