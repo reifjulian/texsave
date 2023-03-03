@@ -226,8 +226,10 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 {space 9}{cmd:headlines(}{it:stringlist}{cmd:)}
 
 {space 9}{it:\begin{table}[tbp] \centering}
+{space 9}{cmd:tablelines(}{it:stringlist}{cmd:)}
 {space 9}{it:\newcolumntype{C}{>{\centering\arraybackslash}X}}
 {space 9}{cmd:title(}{it:string}{cmd:)}
+
 {space 9}\begin{tabularx}{\linewidth}{@{}lC...C@{}}
 {space 9}{it:\toprule}
 {space 9}{cmd:autonumber}
@@ -239,6 +241,7 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 
 {space 9}{it:\bottomrule} \addlinespace[\belowrulesep]
 {space 9}{it:\end{tabularx}}
+
 {space 9}{it:\parbox{\linewidth}}{{it:\footnotesize} {cmd:footnote(}{it:string}{cmd:)}}
 {space 9}{it:\end{table}}
 
