@@ -22,7 +22,7 @@
 {p 8 14 2}{it:spacing_options} are
 
 {p 12 14 2} {cmdab:geo:metry(}{it:string}{cmd:)} 
-{cmd:headersep(}{it:string}{cmd:)} {cmd:width(}{it:string}{cmd:)} 
+{cmd:width(}{it:string}{cmd:)} {cmd:headersep(}{it:string}{cmd:)} 
 {cmd:rowsep(}{it:string}{cmd:)}  {cmd:rowstretch(}{it:#}{cmd:)} {cmd:rowheight(}{it:string}{cmd:)} 
 {cmd:colwidth(}{it:string}{cmd:)}
 
@@ -48,8 +48,13 @@
 {title:Description}
 
 {p 4 4 2}{cmd:texsave} outputs the dataset currently in memory to {it:filename} in LaTeX format. It uses the {it:booktabs}, {it:tabularx}, and {it:geometry} packages
-to produce publication-quality tables.
+to produce publication-quality tables. To link the table to an existing LaTeX document, follow these two steps:
 
+{p 8 10 2}
+1. Add the line {it:\usepackage{standalone}} to the document's preamble.
+
+{p 8 10 2}
+2. Add the line {it:\input{filename}} to the place where you want the table to appear in the document.
 
 {title:Options}
 
@@ -214,7 +219,6 @@ The resulting output will not compile into a table.
 if there are three columns, specify {cmd:align(}{it:|l|C|C|}{cmd:)} to surround all columns with vertical lines.
 The default is to left-justify the first column and center and distribute space equally across the rest of the columns, which in the case of three columns corresponds to 
 {cmd:align(}{it:lCC}{cmd:)}
-
 
 
 {title:Remarks}
