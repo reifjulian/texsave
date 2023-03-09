@@ -70,6 +70,7 @@ suboption writes out "\addlinespace[{it:string}]" just prior the footnote, allow
 amount of spacing between the table and the footnote. (See {cmd:rowsep()} for examples of valid units.)
 The default is "\addlinespace[\belowrulesep]".
 
+
 {p 4 8 2}
 {cmd:autonumber} writes out "(1)", "(2)"... in the first row of the table header, beginning with column two.  
 This is useful when outputting regression results stored by a command like {help regsave:regsave} (if installed).
