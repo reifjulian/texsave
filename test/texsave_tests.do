@@ -43,6 +43,9 @@ version 10.1
 	sysuse auto, clear
 	texsave make mpg trunk if price > 8000 using "example5.tex", bold("Buick") headerlines("& \multicolumn{2}{c}{\textbf{Data}}" "\cmidrule{2-3}\addlinespace[-2ex]") replace nofix
 	
+	sysuse auto, clear
+	texsave make mpg trunk if price > 8000 using "example5.1.tex", bold("Buick") headerlines2("& \multicolumn{2}{c}{\textbf{Data}} \tabularnewline" "\cmidrule{2-3}") replace nofix	
+	
 * 6. Do some bolding, italicizing, and underlining
 	sysuse auto.dta, clear
 	texsave make mpg trunk if price > 8000 using "example6.tex", slanted("Deville") smallcaps("Continental") sansserif("Mark") monospace("Datsun") emphasis("Volvo") bold("Buick") underline("Buick" "Olds") italics("Eldorado") replace

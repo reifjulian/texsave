@@ -1,5 +1,5 @@
-*! texsave 1.6.1 03mar2023 by Julian Reif 
-* 1.6.1: added rowstretch, rowheight, colwidth, and tablelines options
+*! texsave 1.6.1 11mar2023 by Julian Reif 
+* 1.6.1: added rowstretch, rowheight, colwidth, and tablelines options. added headerlines2() option.
 * 1.6.0: added "@{}" to header alignment. Changed footnote to use \parbox.
 * 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
 * 1.4.6: added label option (replaces marker function, which is now deprecated)
@@ -25,7 +25,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) preamble(string asis) headlines(string asis) tablelines(string asis) headerlines(string asis)  footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowstretch(numlist max=1 missingok) rowheight(string) rowsep(string) colwidth(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) preamble(string asis) headlines(string asis) tablelines(string asis) headerlines(string asis) headerlines2(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowstretch(numlist max=1 missingok) rowheight(string) rowsep(string) colwidth(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
 
 	********************************************************************************************
@@ -44,6 +44,11 @@ program define texsave, nclass
 		di as error "option varlabels not allowed with option nonames"
 		exit 198
 	}
+	
+	* headerlines and headerlines2 generally not specified together
+	if `"`headerlines'"'!="" & `"`headerlines2'"'!="" {
+		di as error "Note: headerlines() and headerlines2() both specified"
+	}	
 
 	* By default, value labels are not written out
 	if "`valuelabels'"=="" local nolabel nolabel
@@ -212,17 +217,23 @@ program define texsave, nclass
 	** 		  HEADER   **
 	*****************************
 
-	* Headerlines (user-specified code)
+	* Headerlines (user-specified code): by default, includes "\tabularnewline" after each string
 	if `"`headerlines'"' != "" {
 		tokenize `"`headerlines'"'
 		while `"`1'"' != "" {
-			local header_headerlines `"`header_headerlines' \tabularnewline `1'"'
+			local header_headerlines `"`header_headerlines'`1' \tabularnewline "'
 			macro shift
-		}		
-		* Strip out the first \tabularnewline
-		local header_headerlines : subinstr local header_headerlines `" \tabularnewline "' ""
-		local header_headerlines `"`header_headerlines' \tabularnewline"'
+		}
 	}
+	
+	* alternative: headerlines2: does not include "\tabularnewline"
+	if `"`headerlines2'"' != "" {
+		tokenize `"`headerlines2'"'
+		while `"`1'"' != "" {
+			local header_headerlines `"`header_headerlines'`1' "'
+			macro shift
+		}
+	}	
 
 	* Autonumber - no number in the first column
 	if "`autonumber'"!="" {

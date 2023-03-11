@@ -145,7 +145,9 @@ For example, {cmd:rowsep(}{it:1cm}{cmd:)} adds one centimeter of vertical space 
 {cmd:tablelines(}{it:stringlist}{cmd:)} specifies lines of LaTeX code to appear between "\begin{table}" and "\begin{tabularx}".  Each line of code should be surrounded by quotation marks (see example 4 below).
 
 {p 12 14 2}
-{cmd:headerlines(}{it:stringlist}{cmd:)} specifies lines of LaTeX code to appear between "\begin{tabularx}" and the table header.  Each line of code should be surrounded by quotation marks (see example 5 below).
+{cmd:headerlines(}{it:stringlist}{cmd:)} specifies lines of LaTeX code to appear between "\begin{tabularx}" and the table header.  Each line of code should be surrounded by quotation marks (see example 5 below). 
+By default, {cmd:headerlines()} appends "\tabularnewline" to the end of each string.
+Use the alternative option {cmd:headerlines2(}{it:stringlist}{cmd:)} if you don't want to append "\tabularnewline".
 
 {p 12 14 2}
 {cmd:footlines(}{it:stringlist}{cmd:)} specifies lines of LaTeX code to appear after "\end{table}".  Each line of code should be surrounded by quotation marks (see example 4 below).
