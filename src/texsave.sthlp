@@ -208,20 +208,23 @@ The resulting output will not compile into a table.
 
 {p 16 18 2}l - a column of left-aligned items
 
+{p 16 18 2}r - a column of right-aligned items
+
 {p 16 18 2}c - a column of centered items
 
-{p 16 18 2}C - a column of centered items; column spacing for all 'C' columns are always the same.
+{p 16 18 2}L - a column of ragged-right items; text will wrap around
 
-{p 16 18 2}r - a column of right-aligned items
+{p 16 18 2}R - a column of ragged-left items; text will wrap around
+
+{p 16 18 2}C - a column of centered items; text will wrap around
 
 {p 16 18 2}S - a column of numbers aligned at the decimal point; requires {cmd:decimalalign} option
 
-{p 16 18 2}| - a vertical line the full height and depth of the environment 
+{p 16 18 2}| - a vertical line the full height and depth of the environment. 
+If there are three columns, specify {cmd:align(}{it:|l|C|C|}{cmd:)} to surround all columns with vertical lines.
 
-{p 16 18 2}The character '|' (the vertical bar, NOT the alphabetic character 'l') adds vertical lines to the table.  For example, 
-if there are three columns, specify {cmd:align(}{it:|l|C|C|}{cmd:)} to surround all columns with vertical lines.
-The default is to left-justify the first column and center and distribute space equally across the rest of the columns, which in the case of three columns corresponds to 
-{cmd:align(}{it:lCC}{cmd:)}
+{p 16 18 2}The default is to left-justify the first column and center and distribute space equally across the rest of the columns, which in the case of three columns corresponds to 
+{cmd:align(}{it:lCC}{cmd:)}.
 
 
 {title:Remarks}

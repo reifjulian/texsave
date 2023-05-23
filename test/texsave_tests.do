@@ -151,7 +151,12 @@ version 10.1
 * 15. Footnote testing
 	sysuse auto, clear
 	texsave make if price > 8000 using "example15.tex", title(MPG and trunk space) width(0.4\linewidth) footnote(Variable trunk measured in cubic feet) replace
-  	
+
+* Align options  	
+	sysuse auto, clear
+	texsave make trunk price if price > 8000 using "align1.tex", title(MPG and trunk space) align(Lcc) footnote(Variable trunk measured in cubic feet) replace
+	texsave make trunk price if price > 8000 using "align2.tex", title(MPG and trunk space) align(lcR) footnote(Variable trunk measured in cubic feet) replace
+	
 ***	
 * Decimalalign examples
 ***
@@ -170,7 +175,7 @@ version 10.1
 	* String data with mix of text and numbers
 	tostring mpg price, replace force format(%5.4fc)
 	replace price = "some text" in 10
-	texsave mpg trunk price in 1/20 using "decimal3.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) decimal replace	
+	texsave mpg trunk price in 1/20 using "decimal3.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) decimal replace
 
 
 use results.dta, clear
