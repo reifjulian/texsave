@@ -1,6 +1,6 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.6.0 30nov2022`
+- Current version: `1.6.1 22may2023`
 - Jump to:  [`overview`](#overview) [`installation`](#Installation) [`update history`](#update-history)  [`author`](#author)
 
 -----------
@@ -29,6 +29,11 @@ After installing, type `help texsave` to learn the syntax.
 
 
 ## Update History:
+
+* **May 22, 2023**
+  - Added `rowstretch()`, `rowheight()`, `colwidth()`, and `tablelines()` options
+  - Added `headerlines2()` option
+  - Added 'R' and 'L' options to `align()`
 
 * **November 30, 2022**
   - Added `@{}` to header alignment
