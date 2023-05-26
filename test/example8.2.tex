@@ -2,12 +2,11 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage[margin=1in]{geometry}
-\usepackage{pdflscape}
 \begin{document}
 
-\begin{landscape}
-\newgeometry{left=.2in,right=.2in}
 \begin{table}[tbp] \centering
+\renewcommand{\arraystretch}{1.1}
+\setlength\extrarowheight{2.2pt}
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \newcolumntype{C}{>{\centering\arraybackslash}X}
@@ -56,12 +55,9 @@ VW Dasher&7140&23&4&2.5&12&2160&172&36&97&3.74&1 \tabularnewline
 VW Diesel&5397&41&5&3.0&15&2040&155&35&90&3.78&1 \tabularnewline
 VW Scirocco&6850&25&4&2.0&16&1990&156&36&97&3.78&1 \tabularnewline
 Volvo 260&11995&17&5&2.5&14&3170&193&37&163&2.98&1 \tabularnewline
-\bottomrule \addlinespace[\belowrulesep]
+\bottomrule 
 
 \end{tabularx}
-\\ \parbox{\linewidth}{\footnotesize Notes: Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string Duplicated string }
 }
 \end{table}
-\restoregeometry
-\end{landscape}
 \end{document}

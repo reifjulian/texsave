@@ -43,6 +43,9 @@ version 10.1
 	sysuse auto, clear
 	texsave make mpg trunk if price > 8000 using "example5.tex", bold("Buick") headerlines("& \multicolumn{2}{c}{\textbf{Data}}" "\cmidrule{2-3}\addlinespace[-2ex]") replace nofix
 	
+	sysuse auto, clear
+	texsave make mpg trunk if price > 8000 using "example5.1.tex", bold("Buick") headerlines2("& \multicolumn{2}{c}{\textbf{Data}} \tabularnewline" "\cmidrule{2-3}") replace nofix	
+	
 * 6. Do some bolding, italicizing, and underlining
 	sysuse auto.dta, clear
 	texsave make mpg trunk if price > 8000 using "example6.tex", slanted("Deville") smallcaps("Continental") sansserif("Mark") monospace("Datsun") emphasis("Volvo") bold("Buick") underline("Buick" "Olds") italics("Eldorado") replace
@@ -79,9 +82,20 @@ version 10.1
 	local fn : di _dup(40) "Duplicated string "
 	texsave using "example7.tex" if price>5000, title("Auto dataset") landscape geometry(left=.2in,right=.2in) size(scriptsize) footnote("Notes: `fn'") replace
 	
-* 8. Rowsep option
+* 8. Rowspacing  options
+
+    * rowsep
 	sysuse auto, clear
-	texsave using "example8.tex" if price>5000, title("Auto dataset") rowsep(0.1cm) size(scriptsize) replace
+	texsave using "example8.1.tex" if price>5000, title("Auto dataset") rowsep(0.1cm) size(scriptsize) replace
+	
+	* rowstretch and rowheight
+	texsave using "example8.2.tex" if price>5000, title("Auto dataset") rowstretch(1.1) rowheight(2.2pt) size(scriptsize) replace
+	
+	cap texsave using "example8.2.tex" if price>5000, title("Auto dataset") rowstretch(string) rowheight(2.2pt) size(scriptsize) replace
+	assert _rc==121
+	
+	* colwidth
+	texsave make-weight using "example8.3.tex" if price>6000, title("Auto dataset") colwidth(20pt) replace
 	
 * 9. Footnote align option
 	sysuse auto, clear
@@ -137,7 +151,12 @@ version 10.1
 * 15. Footnote testing
 	sysuse auto, clear
 	texsave make if price > 8000 using "example15.tex", title(MPG and trunk space) width(0.4\linewidth) footnote(Variable trunk measured in cubic feet) replace
-  	
+
+* Align options  	
+	sysuse auto, clear
+	texsave make trunk price if price > 8000 using "align1.tex", title(MPG and trunk space) align(Lcc) footnote(Variable trunk measured in cubic feet) replace
+	texsave make trunk price if price > 8000 using "align2.tex", title(MPG and trunk space) align(lcR) footnote(Variable trunk measured in cubic feet) replace
+	
 ***	
 * Decimalalign examples
 ***
@@ -156,7 +175,7 @@ version 10.1
 	* String data with mix of text and numbers
 	tostring mpg price, replace force format(%5.4fc)
 	replace price = "some text" in 10
-	texsave mpg trunk price in 1/20 using "decimal3.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) decimal replace	
+	texsave mpg trunk price in 1/20 using "decimal3.tex", title(MPG and trunk space) footnote(Variable trunk measured in cubic feet) decimal replace
 
 
 use results.dta, clear
