@@ -1,4 +1,5 @@
-*! texsave 1.6.1 22may2023 by Julian Reif 
+*! texsave 1.6.2 23sep2023 by Julian Reif 
+* 1.6.2: fixed bug when variable names were very long
 * 1.6.1: added rowstretch, rowheight, colwidth, and tablelines options. added headerlines2() option. added align options 'R' and 'L'
 * 1.6.0: added "@{}" to header alignment. Changed footnote to use \parbox.
 * 1.5.1: added dataonly and valuelabels options. endash option, when there is more than one negative number in the cell, now changes all negatives (up to 10) rather than just the first one
@@ -297,14 +298,14 @@ program define texsave, nclass
 		
 		* Variables - create new temporary ones that have bad chars stripped out of them and are formatted as specified by user
 		qui foreach v of local varlist {
-			tempname `v'temp
-			ren `v' ``v'temp'
-			gen `v' = ``v'temp'
+			tempname `v'
+			ren `v' ``v''
+			gen `v' = ``v''
 			
 			* Retain display formatting and value labels
-			local varformat : format ``v'temp'
+			local varformat : format ``v''
 			format `v' `varformat'			
-			local vallabel : value label ``v'temp'
+			local vallabel : value label ``v''
 			cap label values `v' `vallabel'
 
 			capture confirm string var `v'
@@ -571,7 +572,7 @@ program define texsave, nclass
 		* Variables
 		foreach v of local varlist {
 			qui drop `v'
-			qui ren ``v'temp' `v'
+			qui ren ``v'' `v'
 		}
 	}		
 
