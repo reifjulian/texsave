@@ -1,6 +1,6 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.6.1 22may2023`
+- Current version: `1.6.2 23sep2023`
 - Jump to:  [`overview`](#overview) [`installation`](#Installation) [`update history`](#update-history)  [`author`](#author)
 
 -----------
@@ -29,6 +29,8 @@ After installing, type `help texsave` to learn the syntax.
 
 
 ## Update History:
+* **Septembe r23, 2023**
+  - Fixed bug affecting long variable names
 
 * **May 22, 2023**
   - Added `rowstretch()`, `rowheight()`, `colwidth()`, and `tablelines()` options
