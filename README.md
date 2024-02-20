@@ -29,7 +29,7 @@ After installing, type `help texsave` to learn the syntax.
 
 
 ## Update History:
-* **Septembe r23, 2023**
+* **September 23, 2023**
   - Fixed bug affecting long variable names
 
 * **May 22, 2023**
