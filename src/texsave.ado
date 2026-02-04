@@ -1,4 +1,5 @@
-*! texsave 1.6.2 23sep2023 by Julian Reif 
+*! texsave 1.6.3 4feb2026 by Julian Reif
+* 1.6.3: added autonumber2 option. Fixed bug in en-dash conversion loop counter. Fixed bug in size validation for "Huge".
 * 1.6.2: fixed bug when variable names were very long
 * 1.6.1: added rowstretch, rowheight, colwidth, and tablelines options. added headerlines2() option. added align options 'R' and 'L'
 * 1.6.0: added "@{}" to header alignment. Changed footnote to use \parbox.

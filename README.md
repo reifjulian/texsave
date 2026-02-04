@@ -1,6 +1,6 @@
 # TEXSAVE: save dataset in LaTeX format.
 
-- Current version: `1.6.2 23sep2023`
+- Current version: `1.6.3 4feb2026`
 - Jump to:  [`overview`](#overview) [`installation`](#Installation) [`update history`](#update-history)  [`author`](#author)
 
 -----------
@@ -29,6 +29,11 @@ After installing, type `help texsave` to learn the syntax.
 
 
 ## Update History:
+* **February 4, 2026**
+  - Added `autonumber2` option
+  - Fixed bug in en-dash conversion loop counter
+  - Fixed bug in size validation for "Huge"
+
 * **September 23, 2023**
   - Fixed bug affecting long variable names
 
@@ -49,7 +54,7 @@ After installing, type `help texsave` to learn the syntax.
   - Added support for aligning numeric values at the decimal point using the `siunitx` package
 
 * **July 1, 2020**
-  - `texsave` now outputs en dash's instead of hyphens for negative numbers. Specifying `noendash` restores previous behavior.
+  - `texsave` now outputs en dashes instead of hyphens for negative numbers. Specifying `noendash` restores previous behavior.
 
 * **December 11, 2019**
   - Added `headersep()` option, with new default: `\addlinespace[\belowrulesep]`
