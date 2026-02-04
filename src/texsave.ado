@@ -64,7 +64,7 @@ program define texsave, nclass
 		qui count `if' `in'
 		local num_rows = `r(N)'
 		if `num_rows' < abs(`max') | `num_rows' < abs(`min') {
-			di as error "hlines() cannot cannot include values larger than `r(N)', the size of the table"
+			di as error "hlines() cannot include values larger than `r(N)', the size of the table"
 			exit 198
 		}
 		
@@ -191,7 +191,7 @@ program define texsave, nclass
 		
 			* Else user specified string
 			else {
-				if !inlist(`"``opt''"', "tiny","scriptsize","footnotesize","small","normalsize","large","Large","LARGE","huge") & "`size'"!="Huge" {
+				if !inlist(`"``opt''"', "tiny","scriptsize","footnotesize","small","normalsize","large","Large","LARGE","huge") & "``opt''"!="Huge" {
 					di as error "``opt'' is an invalid option for `opt'()"
 					exit 198
 				}
@@ -339,7 +339,7 @@ program define texsave, nclass
 						gen `match' = regexm(`v', "(^|[^A-Za-z\-])-[0-9]")
 						summ `match', meanonly
 						local ismatch = r(max)						
-						local `counter' = `counter'+1
+						local counter = `counter'+1
 					}
 					cap drop `match'
 				}
