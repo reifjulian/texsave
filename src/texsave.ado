@@ -26,7 +26,7 @@
 program define texsave, nclass
 	version 10
 
-	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) preamble(string asis) headlines(string asis) tablelines(string asis) headerlines(string asis) headerlines2(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber rowstretch(numlist max=1 missingok) rowheight(string) rowsep(string) colwidth(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
+	syntax [varlist] using/ [if] [in] [, noNAMES SW noFIX noENDASH title(string) DELIMITer(string) footnote(string asis) preamble(string asis) headlines(string asis) tablelines(string asis) headerlines(string asis) headerlines2(string asis) footlines(string asis) frag align(string) LOCation(string) size(string) width(string) marker(string) label(string) bold(string) italics(string) underline(string) slanted(string) smallcaps(string) sansserif(string) monospace(string) emphasis(string) VARLABels VALUELABels hlines(numlist) autonumber autonumber2 rowstretch(numlist max=1 missingok) rowheight(string) rowsep(string) colwidth(string) headersep(string) LANDscape GEOmetry(string) DECIMALalign dataonly replace]
 
 
 	********************************************************************************************
@@ -244,11 +244,24 @@ program define texsave, nclass
 			local run_no = `run_no'+1
 		}
 		local header_autonumber `"`header_autonumber' \tabularnewline"'
-		
+
 		* If variable names are also being written out, add an additional horizontal line
 		if "`names'"=="" local header_autonumber `"`header_autonumber' `horiz_line'"'
 	}
-	
+
+	* Autonumber2 - same as autonumber but outputted below headerlines instead of above
+	if "`autonumber2'"!="" {
+		local run_no = 1
+		foreach v of local varlist {
+			if `run_no'>1  local header_autonumber2 `"`header_autonumber2'`delimiter'{(`=`run_no'-1')}"'
+			local run_no = `run_no'+1
+		}
+		local header_autonumber2 `"`header_autonumber2' \tabularnewline"'
+
+		* If variable names are also being written out, add an additional horizontal line
+		if "`names'"=="" local header_autonumber2 `"`header_autonumber2' `horiz_line'"'
+	}
+
 	* Column names (either varlabels or Stata column names) - don't write these out if user specifies -nonames-
 	if "`names'"=="" {
 		foreach v of local varlist {
@@ -459,10 +472,11 @@ program define texsave, nclass
 	
 	if "`autonumber'"!="" 		    qui file write `fh' "`header_autonumber'" _n
 	if `"`header_headerlines'"'!="" qui file write `fh' "`header_headerlines'" _n
+	if "`autonumber2'"!="" 		    qui file write `fh' "`header_autonumber2'" _n
 	if "`header_colnames'"!=""	    qui file write `fh' "`header_colnames'" _n
 
-	* Only write out a horizontal line if there is a header	
-	if `"`header_headerlines'`autonumber'`header_colnames'"'!="" qui file write `fh' "`horiz_line'`headersep'" _n
+	* Only write out a horizontal line if there is a header
+	if `"`header_headerlines'`autonumber'`autonumber2'`header_colnames'"'!="" qui file write `fh' "`horiz_line'`headersep'" _n
 	file close `fh'
 	
 	
