@@ -42,10 +42,18 @@ version 10.1
 * 5. Headerlines
 	sysuse auto, clear
 	texsave make mpg trunk if price > 8000 using "example5.tex", bold("Buick") headerlines("& \multicolumn{2}{c}{\textbf{Data}}" "\cmidrule{2-3}\addlinespace[-2ex]") replace nofix
-	
+
 	sysuse auto, clear
-	texsave make mpg trunk if price > 8000 using "example5.1.tex", bold("Buick") headerlines2("& \multicolumn{2}{c}{\textbf{Data}} \tabularnewline" "\cmidrule{2-3}") replace nofix	
-	
+	texsave make mpg trunk if price > 8000 using "example5.1.tex", bold("Buick") headerlines2("& \multicolumn{2}{c}{\textbf{Data}} \tabularnewline" "\cmidrule{2-3}") replace nofix
+
+	* autonumber with headerlines: column numbers appear ABOVE headerlines
+	sysuse auto, clear
+	texsave make mpg trunk if price > 8000 using "example5.2.tex", headerlines("& \multicolumn{2}{c}{\textbf{Data}}" "\cmidrule{2-3}\addlinespace[-2ex]") autonumber replace nofix
+
+	* autonumber2 with headerlines: column numbers appear BELOW headerlines
+	sysuse auto, clear
+	texsave make mpg trunk if price > 8000 using "example5.3.tex", headerlines("& \multicolumn{2}{c}{\textbf{Data}}" "\cmidrule{2-3}\addlinespace[-2ex]") autonumber2 replace nofix
+
 * 6. Do some bolding, italicizing, and underlining
 	sysuse auto.dta, clear
 	texsave make mpg trunk if price > 8000 using "example6.tex", slanted("Deville") smallcaps("Continental") sansserif("Mark") monospace("Datsun") emphasis("Volvo") bold("Buick") underline("Buick" "Olds") italics("Eldorado") replace

@@ -8,9 +8,9 @@
 
 {title:Syntax}
 
-{p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:footnote(}{it:footnote_suboptions}{cmd:)} 
- {cmd:autonumber} {cmdab:varlab:els} {cmd:hlines(}{help numlist:numlist}{cmd:)} 
- {cmd:label(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)} {cmdab:land:scape}   {cmd:replace} 
+{p 8 14 2}{cmd:texsave} [{it:varlist}] {cmd:using} {it:filename} [if] [in] [, {cmd:title(}{it:string}{cmd:)} {cmd:footnote(}{it:footnote_suboptions}{cmd:)}
+ {cmd:autonumber} {cmd:autonumber2} {cmdab:varlab:els} {cmd:hlines(}{help numlist:numlist}{cmd:)}
+ {cmd:label(}{it:string}{cmd:)} {cmd:size(}{it:string}{cmd:)} {cmdab:land:scape}   {cmd:replace}
 {it:spacing_options} {it:code_options} {it:format_options} {it:other_options}]
 
 {p 4 4 2}where
@@ -72,8 +72,13 @@ The default is "\addlinespace[\belowrulesep]".
 
 
 {p 4 8 2}
-{cmd:autonumber} writes out "(1)", "(2)"... in the first row of the table header, beginning with column two.  
+{cmd:autonumber} writes out "(1)", "(2)"... in the first row of the table header, beginning with column two.
 This is useful when outputting regression results stored by a command like {help regsave:regsave} (if installed).
+
+
+{p 4 8 2}
+{cmd:autonumber2} is identical to {cmd:autonumber}, except that the column numbers are outputted below {cmd:headerlines()} instead of above.
+This is useful when you want custom header text to appear above the column numbers.
 
 
 {p 4 8 2}
@@ -267,6 +272,7 @@ The {help filefilter:filefilter} command is helpful in these cases. For example,
 {space 9}{it:\toprule}
 {space 9}{cmd:autonumber}
 {space 9}{cmd:headerlines(}{it:stringlist}{cmd:)}
+{space 9}{cmd:autonumber2}
 
 {space 9}[variable names]
 {space 9}{it:\midrule\addlinespace[}{cmd:headersep(}{it:string}{cmd:)}{it:]}
